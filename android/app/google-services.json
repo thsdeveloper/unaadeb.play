@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "207074566517",
+    "project_id": "unaadeb-a6c93",
+    "storage_bucket": "unaadeb-a6c93.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207074566517:android:8794f1293a0285105f333c",
+        "android_client_info": {
+          "package_name": "com.unaadebplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207074566517-k3ndku96p6fbvjbtidh71b0aon88mhhs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unaadebplay",
+            "certificate_hash": "ccb69ceabf0c9aa55581ef050e3cf0a966dd37f2"
+          }
+        },
+        {
+          "client_id": "207074566517-8md2a4phn7bqruda9k10qnq50g6dje2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaQRO93Wk5jXYWjacYjbMOhW3LEODMhqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207074566517-8md2a4phn7bqruda9k10qnq50g6dje2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
