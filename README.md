@@ -25,8 +25,6 @@ react-native run-android
 IOS:
 
 ```sh
-cd ios && pod install
-cd ../
 yarn ios
 ou
 react-native run-ios
