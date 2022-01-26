@@ -1,5 +1,6 @@
 {
     "./src/**/*.{js,jsx,ts,tsx}": [
+      "organize-imports-cli",
       "prettier --write",
       "eslint --fix",
       "jest --passWithNoTests",
