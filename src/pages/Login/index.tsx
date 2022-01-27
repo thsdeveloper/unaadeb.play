@@ -8,22 +8,6 @@ const image = require('../../../assets/images/Login-bg.png')
 
 const Login: React.FC = () => {
     const {signIn} = useAuth()
-    // const handleSignIn = async () => {
-    //     GoogleSignin.configure({             
-    //         iosClientId: '207074566517-ct55jkd9ld0bvqbp56jigi60ccosjja0.apps.googleusercontent.com',    
-    //     })
-    //     GoogleSignin.hasPlayServices().then((hasPlayService) => {
-    //         if (hasPlayService) {
-    //              GoogleSignin.signIn().then((userInfo) => {
-    //                 console.log(JSON.stringify(userInfo))             
-    //             }).catch((e) => {             
-    //                 console.log("ERROR IS: " + JSON.stringify(e));
-    //             })        
-    //         }
-    //     }).catch((e) => {    
-    //             console.log("ERROR IS: " + JSON.stringify(e))
-    //     })
-    // }
 
     const handleSignIn = () => signIn()
 

@@ -1,5 +1,5 @@
 import Config from "react-native-config"
-import { GoogleSignin, statusCodes,} from '@react-native-google-signin/google-signin'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
 interface Response {
   idToken: string
@@ -12,7 +12,7 @@ interface Response {
 }
 
 export function signIn(): Promise<Response | null> {
-  console.log(Config.GOOGLE_IOS_CLIENT_ID)
+  
   return new Promise((resolve) => {
     GoogleSignin.configure({             
       iosClientId: Config.GOOGLE_IOS_CLIENT_ID,    
@@ -20,7 +20,6 @@ export function signIn(): Promise<Response | null> {
     GoogleSignin.hasPlayServices().then((hasPlayService) => {
       if (hasPlayService) {
            GoogleSignin.signIn().then((userInfo) => {
-              console.log(JSON.stringify(userInfo))
               if(userInfo){
                 const authInfo = userInfo as Response
                 resolve({
@@ -36,13 +35,12 @@ export function signIn(): Promise<Response | null> {
                 resolve(null)
               }      
           }).catch((e) => {             
-            console.log("ERROR IS: " + JSON.stringify(e));
             resolve(null)
           })        
       }
     }).catch((e) => {    
-      console.log("ERROR IS: " + JSON.stringify(e))
       resolve(null)
     })
-  });
+  })
+
 }
