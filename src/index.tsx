@@ -4,15 +4,18 @@ import { StatusBar } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { ThemeProvider} from 'styled-components/native'
 
-import { theme, defaultTheme } from './config/fontConfig'
-import Pages from './pages'
+import {AuthProvider} from '~/contexts/auth'
+import { theme, defaultTheme } from '~/config/fontConfig'
+import Routes from '~/routes'
 
 const App: React.FC = () => {
   return (
     <PaperProvider theme={theme}>
       <ThemeProvider theme={defaultTheme}>
-          <StatusBar barStyle='light-content' />
-          <Pages />
+          <AuthProvider>
+            <StatusBar barStyle='light-content' />
+            <Routes />
+          </AuthProvider>
       </ThemeProvider>
     </PaperProvider>
   )

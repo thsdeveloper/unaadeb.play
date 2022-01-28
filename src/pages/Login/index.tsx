@@ -1,12 +1,16 @@
 import React from 'react'
-
 import {AppPage , Button} from '~/components'
+import { useAuth } from '~/contexts/auth'
 
 import * as S from './styles'
 
 const image = require('../../../assets/images/Login-bg.png')
 
 const Login: React.FC = () => {
+    const {signIn} = useAuth()
+
+    const handleSignIn = () => signIn()
+
   return (
         <AppPage fit={false} scroll={true} safeArea>
             <S.Header>
@@ -23,13 +27,15 @@ const Login: React.FC = () => {
                 <Button 
                     text='Entrar com Google' 
                     mode='contained' 
-                    onPress={() => {}}
+                    onPress={handleSignIn}
                     icon={{name: 'google', size: 30}}
                 />
                 <Button 
                     text='Cadastre-se' 
                     mode='text' 
-                    onPress={() => {}} color='#fff'
+                    onPress={() => {
+                        console.log('Cadastre-se')
+                    }} color='#fff'
                 />
             </S.ContainerButtons>
         </AppPage>
