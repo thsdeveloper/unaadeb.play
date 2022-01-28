@@ -18,10 +18,8 @@ export function signIn(): Promise<Response | null> {
       iosClientId: Config.GOOGLE_IOS_CLIENT_ID,    
     })
     GoogleSignin.hasPlayServices().then((hasPlayService) => {
-      console.log(hasPlayService) 
       if (hasPlayService) {
            GoogleSignin.signIn().then((userInfo) => {
-             console.log(userInfo)
               if(userInfo){
                 const authInfo = userInfo as Response
                 resolve({
@@ -37,12 +35,10 @@ export function signIn(): Promise<Response | null> {
                 resolve(null)
               }      
           }).catch((e) => { 
-            console.log(e)            
             resolve(null)
           })        
       }
     }).catch((e) => {    
-      console.log(e) 
       resolve(null)
     })
   })

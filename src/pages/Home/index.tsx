@@ -11,7 +11,6 @@ const Home: React.FC = () => {
   const renderAvatar = () => {
     if(!user?.photo?.length){
       const initials = user?.givenName?.split(' ')?.map(name => name[0])?.join('')
-      console.log(initials)
       return <Avatar.Text label={initials || ' '} size={48} style={{marginTop: 10, marginRight: 10}} />
     }
     return <Avatar.Image size={50} source={{uri: user?.photo}} style={{marginTop: 10, marginRight: 10}}/>
