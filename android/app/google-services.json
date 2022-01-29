@@ -14,11 +14,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "207074566517-k3ndku96p6fbvjbtidh71b0aon88mhhs.apps.googleusercontent.com",
+          "client_id": "207074566517-csv01diptfbvb84kovatsps4v2inph8g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.unaadebplay",
-            "certificate_hash": "ccb69ceabf0c9aa55581ef050e3cf0a966dd37f2"
+            "certificate_hash": "98df62ce648520b052f050f3602bb3bc43975fc6"
+          }
+        },
+        {
+          "client_id": "207074566517-qr2mb31v23o8b36er3s72jh41bv48tst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unaadebplay",
+            "certificate_hash": "4dea070122dd978c73ebc9815b4937ab864d09ea"
           }
         },
         {
@@ -37,6 +45,13 @@
             {
               "client_id": "207074566517-8md2a4phn7bqruda9k10qnq50g6dje2g.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "207074566517-ct55jkd9ld0bvqbp56jigi60ccosjja0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.UnaadebPlay"
+              }
             }
           ]
         }

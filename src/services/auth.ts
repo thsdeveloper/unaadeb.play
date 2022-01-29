@@ -34,7 +34,7 @@ export function signIn(): Promise<Response | null> {
               }else{
                 resolve(null)
               }      
-          }).catch((e) => {             
+          }).catch((e) => { 
             resolve(null)
           })        
       }

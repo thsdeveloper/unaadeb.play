@@ -92,8 +92,8 @@ export const fontConfig: IFontConfigProps = {
     colors: {
       ...DefaultTheme.colors,
       background: defaultTheme.colors.background,
-      primary: '#000',
+      primary: defaultTheme.colors.secondary,
       accent: '#D0D0D0',
-      text: '#fff',
+      text: defaultTheme.colors.white,
     },
   }
