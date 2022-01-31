@@ -91,9 +91,16 @@ export const fontConfig: IFontConfigProps = {
     roundness: 10,
     colors: {
       ...DefaultTheme.colors,
+<<<<<<< Updated upstream
       background: defaultTheme.colors.background,
       primary: '#000',
       accent: '#D0D0D0',
       text: '#fff',
+=======
+      background: defaultTheme.colors.light,
+      primary: defaultTheme.colors.secondary,
+      accent: defaultTheme.colors.secondary,
+      text: defaultTheme.colors.brown,
+>>>>>>> Stashed changes
     },
   }

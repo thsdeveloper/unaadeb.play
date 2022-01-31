@@ -1,12 +1,20 @@
 import React from 'react'
 
 import {AppPage , Button} from '~/components'
+import { useAuth } from '~/contexts/auth'
+import { CompositeNavigationProp } from '@react-navigation/native'
 
 import * as S from './styles'
 
 const image = require('../../../assets/images/Login-bg.png')
 
-const Login: React.FC = () => {
+const Login: React.FC = ({ navigation }:any) => {
+    const {signIn} = useAuth()
+
+    const handleSignIn = () => signIn()
+
+    const handleSignUp = () => navigation.navigate('SignUp')
+
   return (
         <AppPage fit={false} scroll={true} safeArea>
             <S.Header>
@@ -29,7 +37,8 @@ const Login: React.FC = () => {
                 <Button 
                     text='Cadastre-se' 
                     mode='text' 
-                    onPress={() => {}} color='#fff'
+                    onPress={handleSignUp} 
+                    color='#fff'
                 />
             </S.ContainerButtons>
         </AppPage>

@@ -34,5 +34,8 @@ export const darkTheme: DefaultTheme = {
         background: '#0E1647',
         white: '#fff',
         secondary: '#E51C44',
+        light: '#DDE3F0',
+        brown: '#4F4F4F',
+        blueLight: '#1D2766'
     }
 }

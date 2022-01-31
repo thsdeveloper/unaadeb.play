@@ -1,4 +1,5 @@
 import React from 'react'
+import { ViewStyle, StyleProp } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import Icon from 'react-native-vector-icons/AntDesign'
 
@@ -20,6 +21,7 @@ interface IButtonProps {
   loading?: boolean
   disabled?: boolean
   onPress?: () => void
+  style?: StyleProp<ViewStyle>
 }
 
 export const Button : React.FC<IButtonProps> = ({
@@ -31,8 +33,8 @@ export const Button : React.FC<IButtonProps> = ({
   loading = false,
   disabled = false,
   textSize,
-
-  onPress
+  onPress,
+  style
 }):JSX.Element => {
   const { colors } = useTheme()
 
@@ -64,7 +66,7 @@ export const Button : React.FC<IButtonProps> = ({
       color={!color ? colors.secondary : color} 
       icon={icon && renderIcons}
       labelStyle={labelStyle}
-      contentStyle={styleContent}
+      contentStyle={[styleContent, style]}
       loading={loading}
       disabled={disabled}
       onPress={onPress}>

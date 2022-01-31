@@ -21,3 +21,15 @@ export const SafeAreaView = styled.SafeAreaView`
     background-color: ${({ theme }:any) => theme.colors.background};
     flex: 1;
 `
+
+export const LoadingView = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: ${({ theme }:any) => theme.colors.background};
+`
+
+export const Loading = styled.ActivityIndicator.attrs(({theme, size}:any) => ({
+    size: size ?? 'large',
+    color: theme.colors.white,
+}))``

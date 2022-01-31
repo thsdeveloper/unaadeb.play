@@ -15,6 +15,7 @@ export interface ITextProps extends TextProps {
     | 'medium'
     | 'bold'
   size?: number
+  lineHeight?: number
 }
 
 
@@ -37,7 +38,8 @@ const RNText = styled.Text<ITextProps>`
   font-size: ${({ size, theme }:ITextProps | any) => size || theme.text.default.sizeNumber}px;
   text-transform: ${({ uppercase }:ITextProps) => (uppercase ? 'uppercase' : 'none')};
   font-family: ${({ fontWeight, theme }:ITextProps | any) => getFontFamily(fontWeight) || theme.text.default.fontFamily};
-  ${({ fontWeight }:ITextProps) => fontWeight && `font-weight: ${fontWeight}`};
+  ${({ fontWeight }:ITextProps) => fontWeight && `font-weight: ${fontWeight};`}
+  ${({lineHeight}:ITextProps) => lineHeight && `line-height:${lineHeight || 30}px;`}
 `
 
 export const Text: React.FC<ITextProps> = ({

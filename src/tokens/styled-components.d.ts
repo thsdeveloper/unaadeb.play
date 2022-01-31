@@ -34,6 +34,9 @@ declare module 'styled-components' {
             background: string
             white: string
             secondary: string
+            light: string
+            brown: string
+            blueLight: string
         }
     }
 }
