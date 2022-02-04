@@ -91,9 +91,9 @@ export const fontConfig: IFontConfigProps = {
     roundness: 10,
     colors: {
       ...DefaultTheme.colors,
-      background: defaultTheme.colors.background,
+      background: defaultTheme.colors.light,
       primary: defaultTheme.colors.secondary,
-      accent: '#D0D0D0',
-      text: defaultTheme.colors.white,
+      accent: defaultTheme.colors.secondary,
+      text: defaultTheme.colors.brown,
     },
   }

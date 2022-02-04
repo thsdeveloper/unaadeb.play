@@ -11,15 +11,17 @@ questions:
 
 ```jsx
 import React from 'react'
-import { View } from 'react-native'
+import {AppPage} from '~/components'
 
 import * as S from './styles'
 
-export const {{ inputs.name | pascal }} : React.FC = ():JSX.Element => {
+const {{ inputs.name | pascal }} : React.FC = ():JSX.Element => {
 
 
-  return <S.Container />
+  return <AppPage />
 }
+
+export default {{ inputs.name | pascal }}
 
 ```
 

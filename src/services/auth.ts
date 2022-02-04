@@ -1,5 +1,7 @@
 import Config from "react-native-config"
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 
 interface Response {
   idToken: string
@@ -44,3 +46,43 @@ export function signIn(): Promise<Response | null> {
   })
 
 }
+
+export function signInForm(email: string, password: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    auth().signInWithEmailAndPassword(email, password).then((userInfo) => {
+      resolve(true)
+    }).catch((e) => {
+      if(e.code === 'auth/wrong-password'){
+        resolve({error: 'Senha incorreta'})
+      }
+      if(e.code === 'auth/user-not-found'){
+        resolve({error:'Email não cadastrado'})
+      }
+      reject({error:'Desculpe-nos, estamos com problemas. Tente novamente mais tarde.'})
+    })
+  })
+}
+
+
+export function getUserInfo(email: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    firestore().collection('customers').doc(email).get().then((doc) => {
+        if(doc.exists){
+          const { name, email } = doc.data() || {}
+          resolve({
+            user:{
+              name: name,
+              email: email,
+              photo: '',
+              givenName: name.split(' ')[0],
+            }
+          })
+        } else {
+          resolve(null)
+        }
+      }
+    ).catch((e) => {
+      resolve(null)
+    })
+  })
+} 

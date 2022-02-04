@@ -1,5 +1,7 @@
 import React, {createContext, useState, useEffect, useContext} from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
+
+import AlertContext from '~/contexts/alert'
 import * as auth from '../services/auth'
 
 interface User {
@@ -14,21 +16,24 @@ interface AuthContextData {
   user: User | null
   loading: boolean
   signIn(): Promise<void>
+  signInForm(email: string, pass: string): Promise<void>
   signOut(): void
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 const AuthProvider: React.FC = ({children}) => {
+  const alert = useContext(AlertContext)
+
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function loadStorageData() {
       const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
-      const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
+      //const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
 
-      if (storagedUser && storagedToken) {
+      if (storagedUser) {
         setUser(JSON.parse(storagedUser))
       }
 
@@ -44,7 +49,29 @@ const AuthProvider: React.FC = ({children}) => {
       setUser(response?.user)
 
       await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user))
-      await AsyncStorage.setItem('@RNAuth:token', response?.idToken)
+      //await AsyncStorage.setItem('@RNAuth:token', response?.idToken)
+    }
+  }
+
+  async function signInForm(email: string, password: string) {
+    try {
+      setLoading(true)
+      const response = await auth.signInForm(email, password)
+      if(response?.error){
+        alert.error(response.error)
+        return
+      }
+
+      const getUserInfo = await await auth.getUserInfo(email)
+      if(getUserInfo){
+        setUser(getUserInfo?.user)
+        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(getUserInfo?.user))
+      }
+
+    } catch (error) {
+      alert.error('Falha na autenticação, verifique seus dados')
+    } finally{
+      setLoading(false)
     }
   }
 
@@ -55,7 +82,7 @@ const AuthProvider: React.FC = ({children}) => {
 
   return (
     <AuthContext.Provider
-      value={{signed: !!user, user, loading, signIn, signOut}}>
+      value={{signed: !!user, user, loading, signIn, signOut, signInForm}}>
       {children}
     </AuthContext.Provider>
   )

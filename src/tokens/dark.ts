@@ -30,9 +30,24 @@ export const darkTheme: DefaultTheme = {
           sizeNumber: 18,
         },
     },
+    input: {
+      text: '#fff',
+      textSize: '12px',
+      placeholder: '#ccc',
+      underline: '#ccc',
+      placeholderSize: '10px',
+      errorColor: '#ccc',
+      borderColor: '#ccc',
+      padding: '0px',
+      borderRadius: '10px',
+    },
     colors: {
         background: '#0E1647',
         white: '#fff',
         secondary: '#E51C44',
+        light: '#DDE3F0',
+        brown: '#4F4F4F',
+        blueLight: '#1D2766',
+        black: '#000',
     }
 }
