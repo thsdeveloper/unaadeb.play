@@ -1,26 +1,17 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import { 
-  TextInputProps, 
-  StyleProp, 
-  TextStyle, 
-  KeyboardTypeOptions, 
-  ReturnKeyType,
-  View 
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+    KeyboardTypeOptions,
+    ReturnKeyType, StyleProp, TextInputProps, TextStyle, View
 } from 'react-native'
-import { useTheme } from 'styled-components/native'
-import { 
-  TextInput as Input, 
-  DefaultTheme as PaperTheme,
-  HelperText  
+import {
+    DefaultTheme as PaperTheme,
+    HelperText, TextInput as Input
 } from 'react-native-paper'
-
-import { 
-  nothingFormatter,
-  formatterPhoneNumber,
-  formatterDate,
-  numberFormatter,
-  cpfFormatter
+import { useTheme } from 'styled-components/native'
+import {
+    cpfFormatter, formatterDate, formatterPhoneNumber, nothingFormatter, numberFormatter
 } from '~/utils/format'
+
 
 interface IInputType {
   name: string

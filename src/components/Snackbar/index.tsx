@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Button } from 'react-native-paper'
-
 import * as S from './styles'
+
 
 export interface ISnackbarProps {
   visible: boolean

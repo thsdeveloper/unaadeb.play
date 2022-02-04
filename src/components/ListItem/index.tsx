@@ -1,7 +1,7 @@
 import React from 'react'
 import { List } from 'react-native-paper'
-
 import * as S from './styles'
+
 
 export type TextProps = {
   text: string,

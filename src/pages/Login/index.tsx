@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useTheme } from 'styled-components/native'
-
-import {AppPage , Button} from '~/components'
+import { AppPage, Button } from '~/components'
 import AlertContext from '~/contexts/alert'
 import { useAuth } from '~/contexts/auth'
 import { validateEmail } from '~/utils/format'
-
 import * as S from './styles'
+
+
 
 const image = require('../../../assets/images/Login-bg.png')
 

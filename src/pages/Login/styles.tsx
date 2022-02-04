@@ -1,7 +1,7 @@
+import { Dimensions } from 'react-native'
 import styled from "styled-components/native"
-import { Dimensions, StatusBar } from 'react-native'
-
 import { Text, TextInput } from '../../components'
+
 
 const { height } = Dimensions.get('window')
 

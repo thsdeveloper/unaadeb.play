@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react'
 import { Platform, StatusBar } from 'react-native'
-import FlashMessage, {showMessage} from "react-native-flash-message"
-
+import FlashMessage, { showMessage } from "react-native-flash-message"
 import AlertContext from '~/contexts/alert'
+
 
 export const Alert : React.FC = ():JSX.Element => {
   const { message, type, duration, clear } = useContext(AlertContext)

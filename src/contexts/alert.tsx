@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MessageType} from "react-native-flash-message"
+import { MessageType } from "react-native-flash-message"
 
 interface AlertContextData {
   type: MessageType

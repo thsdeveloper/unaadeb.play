@@ -1,9 +1,9 @@
 import React from 'react'
-import { ViewStyle, StyleProp } from 'react-native'
-import { useTheme } from 'styled-components/native'
+import { StyleProp, ViewStyle } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-
+import { useTheme } from 'styled-components/native'
 import * as S from './styles'
+
 
 interface IconProps {
   name?: string

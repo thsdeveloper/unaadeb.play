@@ -1,8 +1,8 @@
 import React from 'react'
-import { TextProps, Platform } from 'react-native'
+import { Platform, TextProps } from 'react-native'
 import styled from 'styled-components/native'
-
 import { fontConfig } from '~/config/fontConfig'
+
 
 export interface ITextProps extends TextProps {
   note?: boolean

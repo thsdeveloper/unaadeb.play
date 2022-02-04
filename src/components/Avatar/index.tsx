@@ -1,9 +1,9 @@
 import React from 'react'
-import { ImageSourcePropType, StyleProp, ViewStyle, TextStyle} from 'react-native'
-import { useTheme } from 'styled-components/native'
+import { ImageSourcePropType, StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { Avatar as NPAvatar } from 'react-native-paper'
-
+import { useTheme } from 'styled-components/native'
 import * as S from './styles'
+
 
 export interface IAvatarImageProps {
   source:  ImageSourcePropType | ((props: { size: number }) => React.ReactNode)

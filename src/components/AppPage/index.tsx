@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { Platform, StatusBar, StyleProp, ViewStyle } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { useTheme } from 'styled-components/native'
-
 import { Snackbar } from '~/components'
 import { ISnackbarProps } from '~/components/Snackbar'
-import { Message } from "react-native-flash-message"
 import * as S from './styles'
+
 
 interface IheaderProps {
   title: string
@@ -14,7 +13,7 @@ interface IheaderProps {
   onBackPress?: () => void
   children?: React.ReactNode
 }
-interface IAppPageProps {
+interface IAppPageProps{
   fit?: boolean
   children: React.ReactNode
   scroll?: boolean
@@ -23,6 +22,7 @@ interface IAppPageProps {
   header?: IheaderProps
   keyboardAvoidingView?: boolean
   snackbar?: ISnackbarProps
+  style?: StyleProp<ViewStyle>
 }
 
 export const AppPage: React.FC<IAppPageProps> = ({
@@ -33,7 +33,8 @@ export const AppPage: React.FC<IAppPageProps> = ({
   loading,
   header,
   keyboardAvoidingView,
-  snackbar
+  snackbar,
+  style
 }) => {
 
   const theme = useTheme()
@@ -51,11 +52,11 @@ export const AppPage: React.FC<IAppPageProps> = ({
   const renderContent = () => (
     <>
       {scroll ? (
-        <S.ScrollContainer>
+        <S.ScrollContainer style={style}>
            <S.Container fit={fit} children={children} />
         </S.ScrollContainer>
       ) : (
-        <S.Container fit={fit} children={children} />
+        <S.Container style={style} fit={fit} children={children} />
       )}
     </>
   )
@@ -73,7 +74,7 @@ export const AppPage: React.FC<IAppPageProps> = ({
   )), [header, theme.colors.blueLight, statusBarHeight])
 
   const renderBodyContent = useMemo(() => (safeArea ? (
-    <S.SafeAreaView>
+    <S.SafeAreaView style={style}>
       {renderContent()}
     </S.SafeAreaView>
   ): renderContent()
@@ -81,8 +82,7 @@ export const AppPage: React.FC<IAppPageProps> = ({
 
   if(keyboardAvoidingView) {
     return (
-      <S.KeyboardView
-      >
+      <S.KeyboardView style={style}>
         {renderHeader}
         {renderBodyContent}
         {loading && renderLoading()}

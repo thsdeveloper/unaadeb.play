@@ -1,5 +1,5 @@
+import { Dimensions, Platform } from "react-native"
 import styled from "styled-components/native"
-import { Platform, Dimensions } from "react-native"
 
 interface ContainerProps {
     fit: boolean

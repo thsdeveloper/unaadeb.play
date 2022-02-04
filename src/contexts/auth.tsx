@@ -1,8 +1,8 @@
-import React, {createContext, useState, useEffect, useContext} from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
-
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import AlertContext from '~/contexts/alert'
 import * as auth from '../services/auth'
+
 
 interface User {
   name: string
@@ -98,4 +98,4 @@ function useAuth() {
   return context
 }
 
-export {AuthProvider, useAuth};
+export { AuthProvider, useAuth }
