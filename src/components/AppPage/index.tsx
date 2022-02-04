@@ -1,8 +1,11 @@
-import React from 'react'
-
+import React, { useMemo } from 'react'
+import { Platform, StatusBar } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { useTheme } from 'styled-components/native'
 
+import { Snackbar } from '~/components'
+import { ISnackbarProps } from '~/components/Snackbar'
+import { Message } from "react-native-flash-message"
 import * as S from './styles'
 
 interface IheaderProps {
@@ -18,6 +21,8 @@ interface IAppPageProps {
   safeArea?: boolean
   loading?: boolean
   header?: IheaderProps
+  keyboardAvoidingView?: boolean
+  snackbar?: ISnackbarProps
 }
 
 export const AppPage: React.FC<IAppPageProps> = ({
@@ -26,18 +31,22 @@ export const AppPage: React.FC<IAppPageProps> = ({
   children,
   safeArea,
   loading,
-  header
+  header,
+  keyboardAvoidingView,
+  snackbar
 }) => {
 
   const theme = useTheme()
 
-  if (loading) {
-    return (
-      <S.LoadingView>
-        <S.Loading />
-      </S.LoadingView>
-    )
-  }
+  const statusBarHeight = Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
+
+  const renderLoading = () => (
+        <S.LoadingContainer>
+          <S.LoadingView>
+            <S.Loading />
+          </S.LoadingView>
+        </S.LoadingContainer>
+      )
 
   const renderContent = () => (
     <>
@@ -51,21 +60,43 @@ export const AppPage: React.FC<IAppPageProps> = ({
     </>
   )
 
+  const renderHeader = useMemo(() => (header && (
+    <Appbar.Header style={{backgroundColor: theme.colors.blueLight, paddingBottom: 10}} statusBarHeight={statusBarHeight}>
+      <Appbar.BackAction onPress={header.onBackPress} />
+      <Appbar.Content 
+        title={header.title} 
+        subtitle={header?.subtitle} 
+        titleStyle={{fontWeight: 'bold', fontSize: 20}} 
+      />
+      {header?.children}
+    </Appbar.Header>
+  )), [header, theme.colors.blueLight, statusBarHeight])
+
+  const renderBodyContent = useMemo(() => (safeArea ? (
+    <S.SafeAreaView>
+      {renderContent()}
+    </S.SafeAreaView>
+  ): renderContent()
+  ), [safeArea, renderContent])
+
+  if(keyboardAvoidingView) {
+    return (
+      <S.KeyboardView
+      >
+        {renderHeader}
+        {renderBodyContent}
+        {loading && renderLoading()}
+      </S.KeyboardView>
+    )
+  }
+  
+
   return (
     <>
-      {header && (
-        <Appbar.Header style={{backgroundColor: theme.colors.blueLight}}>
-          <Appbar.BackAction onPress={header.onBackPress} />
-          <Appbar.Content title={header.title} subtitle={header?.subtitle} titleStyle={{fontWeight: 'bold', fontSize: 20}} />
-          {header?.children}
-        </Appbar.Header>
-      )}
-      {safeArea ? (
-        <S.SafeAreaView>
-          {renderContent()}
-        </S.SafeAreaView>
-      ) : renderContent()
-      }
+      {renderHeader}
+      {renderBodyContent}
+      {snackbar && <Snackbar {...snackbar} />}
+      {loading && renderLoading()}
     </>
   )
 }

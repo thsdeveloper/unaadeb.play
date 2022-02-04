@@ -1,14 +1,14 @@
 import styled from "styled-components/native"
 import { Dimensions, StatusBar } from 'react-native'
 
-import { Text } from '../../components'
+import { Text, TextInput } from '../../components'
 
 const { height } = Dimensions.get('window')
 
 export const Header = styled.View`
     flex: 1;
     height: 40%;
-    max-height: ${height / 2}px;
+    max-height: ${height / 2 - 30}px;
     margin-top: 10px;
 `
 
@@ -46,3 +46,22 @@ export const P = styled(Text)`
     margin-top: 20px;
     padding: 0 20px;
 `
+
+export const InputText = styled(TextInput).attrs(({theme}:any) => ({
+    textStyle:{
+      color: theme.colors.brown,
+    }
+  }))`
+    font-weight: 500;
+  `
+
+  export const FieldsContainer = styled.View`
+    flex: 1;
+    margin: 10px 20px 0 20px;
+  `
+
+  export const ViewSubmitButton = styled.View`
+    flex: 1;
+    margin: 0 25% 0 25%;
+    justify-content: center;
+  `

@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
-import { TextInput } from 'react-native-paper'
-import { Text } from '~/components'
+//import { TextInput } from 'react-native-paper'
+import { Text, TextInput } from '~/components'
 
 interface TextProps {
   align?: string
@@ -28,7 +28,6 @@ export const InputText = styled(TextInput).attrs(({theme}:any) => ({
     color: theme.colors.brown,
   }
 }))`
-  margin-bottom: 15px;
   font-weight: 500;
 `
 

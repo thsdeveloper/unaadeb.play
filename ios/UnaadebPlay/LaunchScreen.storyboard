@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -13,44 +13,22 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="Logo2" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oht-5S-h9m">
-                                <rect key="frame" x="71.5" y="361" width="232" height="36"/>
-                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Acompanhe tudo sobre a UNAADEB. " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8IQ-hw-wgk">
-                                <rect key="frame" x="75" y="411" width="224.5" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="União de Adolescentes da Assembleia de Deus" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ui3-vp-etW">
-                                <rect key="frame" x="45" y="434" width="284" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="Logo - Marca UNAADEB 2020 adeb.com 1" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NPy-1K-Gly">
-                                <rect key="frame" x="117" y="135" width="141" height="218"/>
-                                <rect key="contentStretch" x="0.0" y="0.0" width="0.75" height="0.75"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_icon" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9QF-tp-zAB">
+                                <rect key="frame" x="45" y="272" width="300" height="300"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17" scale="default"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" red="0.054901960784313725" green="0.086274509803921567" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="NPy-1K-Gly" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="IVx-bM-iO2"/>
-                            <constraint firstItem="ui3-vp-etW" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="JAV-lF-5pO"/>
-                            <constraint firstItem="8IQ-hw-wgk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="KZR-af-PdD"/>
-                            <constraint firstItem="NPy-1K-Gly" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="OEQ-CF-8Ir"/>
-                            <constraint firstItem="NPy-1K-Gly" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="OhF-3Y-dl7"/>
-                            <constraint firstItem="NPy-1K-Gly" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="RYw-wZ-TW0"/>
-                            <constraint firstItem="Oht-5S-h9m" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Zep-jz-1p8"/>
-                            <constraint firstItem="Oht-5S-h9m" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="aaL-4d-Lvp"/>
-                            <constraint firstItem="NPy-1K-Gly" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="egw-xS-mNd"/>
-                            <constraint firstItem="NPy-1K-Gly" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="gNa-hR-KM7"/>
+                            <constraint firstItem="9QF-tp-zAB" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Buo-Vu-5ah"/>
+                            <constraint firstItem="9QF-tp-zAB" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="LIP-6w-UhI"/>
+                            <constraint firstItem="9QF-tp-zAB" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Ymf-AT-kpM"/>
+                            <constraint firstItem="9QF-tp-zAB" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="uoT-dl-LyF"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -60,7 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo - Marca UNAADEB 2020 adeb.com 1" width="141" height="218"/>
-        <image name="Logo2" width="232" height="36"/>
+        <image name="splash_icon" width="300" height="300"/>
     </resources>
 </document>
