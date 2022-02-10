@@ -45,6 +45,7 @@ export const Text : React.FC<IAvatarTextProps> = ({
   labelStyle,
 }):JSX.Element => {
   const { colors } = useTheme()
+ 
   return <NPAvatar.Text 
     label={label} 
     size={size} 
