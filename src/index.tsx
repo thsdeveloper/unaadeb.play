@@ -16,11 +16,9 @@ const App: React.FC = () => {
       <ThemeProvider theme={defaultTheme}>
         <AlertProvider>
           <AuthProvider>
-            
-              <StatusBar barStyle='light-content' translucent />
-              <Routes />
-              <Alert />
-             
+            <StatusBar barStyle='light-content' translucent backgroundColor={'transparent'} />
+            <Routes />
+            <Alert />
           </AuthProvider>
         </AlertProvider>
       </ThemeProvider>

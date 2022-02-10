@@ -1,4 +1,4 @@
-import React, {createContext, useState, useEffect, useContext} from 'react'
+import React, {createContext, useState, useEffect, useContext, useCallback} from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import AlertContext from '~/contexts/alert'
@@ -29,19 +29,16 @@ const AuthProvider: React.FC = ({children}) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function loadStorageData() {
-      const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
-      //const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
+    init()
+  },[])
 
-      if (storagedUser) {
-        setUser(JSON.parse(storagedUser))
-      }
-
-      setLoading(false)
+  const init = useCallback(async () => {
+    const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
+    if (storagedUser) {
+      setUser(JSON.parse(storagedUser))
     }
-
-    loadStorageData()
-  })
+    setLoading(false)
+  }, [])
 
   async function signIn() {
     const response = await auth.signIn()

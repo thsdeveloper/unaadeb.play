@@ -11,7 +11,7 @@ export type TextProps = {
 
 interface IListItemProps {
   title: TextProps
-  description: TextProps
+  description?: TextProps
   customDescription?: React.ReactNode
   customTitle?: React.ReactNode
   left?: (props: { color: string; style: { marginLeft: number; marginRight: number; marginVertical?: number; }; }) => React.ReactNode
@@ -23,17 +23,18 @@ export const ListItem : React.FC<IListItemProps> = ({
   title,
   description,
   customTitle,
+  customDescription,
   left,
   right,
   onPress
 }):JSX.Element => {
 
   const rederTitle = () => (<S.ListText size={title.size}>{title.text}</S.ListText>)
-  const rederDescription= () => (<S.ListDescription size={description.size}>{description.text}</S.ListDescription>)
+  const rederDescription= () => (<S.ListDescription size={description?.size}>{description?.text}</S.ListDescription>)
 
   return <List.Item
     title={!!title ? rederTitle : customTitle}
-    description={!!description ? rederDescription : customTitle}
+    description={!!description ? rederDescription : customDescription}
     left={left}
     right={right}
     onPress={onPress}
