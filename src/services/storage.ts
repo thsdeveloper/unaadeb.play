@@ -11,28 +11,32 @@ export interface NewsProps {
 
 export function getNews(): Promise<NewsProps[] | null> {
   return new Promise((resolve, reject) => {
-    firestore().collection('news').limit(20).get().then((doc) => {
-        if(doc.empty){
+    firestore()
+      .collection('news')
+      .limit(20)
+      .get()
+      .then((doc) => {
+        if (doc.empty) {
           resolve(null)
-        }else{
-          const news:NewsProps[] = []
+        } else {
+          const news: NewsProps[] = []
           doc.forEach((item) => {
             const { title, short_description, image, date } = item.data() || {}
             const dateConverted = date.toDate()
-            console.log('date -->',date.toDate())
             news.push({
               title,
               short_description,
               image,
-              date: format(dateConverted, "EEE dd/MM 'às' HH:mm'h'", { locale: pt }),
+              date: format(dateConverted, "EEE dd/MM 'às' HH:mm'h'", {
+                locale: pt,
+              }),
             })
           })
           resolve(news)
         }
-
-      }
-    ).catch((e) => {
-      reject()
-    })
+      })
+      .catch((e) => {
+        reject()
+      })
   })
-} 
+}

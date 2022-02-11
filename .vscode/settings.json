@@ -1,0 +1,33 @@
+{
+	// "files.autoSave": "onFocusChange",
+	"editor.formatOnSave": true,
+	"prettier.arrowParens": "always",
+	"prettier.semi": false,
+	"prettier.jsxSingleQuote": true,
+	"prettier.trailingComma": "all",
+	"prettier.configPath": ".prettierrc",
+	"prettier.singleQuote": true,
+	"prettier.tabWidth": 2,
+	"prettier.bracketSpacing": true,
+	"prettier.endOfLine": "auto",
+	"editor.formatOnType": true,
+	"typescript.tsdk": "./node_modules,/typescript/lib",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true,
+		"imports.fixAll.eslint": true,
+	},
+	// "typescriptHero.imports.insertSpaceBeforeAndAfterImportBraces": true,
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"typescript.format.semicolons": "remove"
+}
