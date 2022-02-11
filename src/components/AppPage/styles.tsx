@@ -1,54 +1,59 @@
-import styled from "styled-components/native"
-import { Platform, Dimensions } from "react-native"
+import styled from 'styled-components/native'
+import { Platform, Dimensions } from 'react-native'
 
 interface ContainerProps {
-    fit: boolean
+  fit: boolean
 }
 
-const { width, height } = Dimensions.get("window")
+const { width, height } = Dimensions.get('window')
 
+const isIOS = Platform.OS === 'ios'
 
 export const Container = styled.View<ContainerProps>`
     flex: 1;
-    background-color: ${({ theme }:any) => theme.colors.background};
-    padding: 0 ${({fit}:ContainerProps) => !fit ? 0 : '20px'};
+    background-color: ${({ theme }: any) => theme.colors.background};
+    padding: 0 ${({ fit }: ContainerProps) => (!fit ? 0 : '20px')};
+    ${({ fit }: ContainerProps) =>
+      fit && `margin-top:  ${!isIOS ? '20px' : '10px'}`}};
 `
 export const ScrollContainer = styled.ScrollView.attrs({
-    showsVerticalScrollIndicator: false,
+  showsVerticalScrollIndicator: false,
 })`
-    background-color: ${({ theme }:any) => theme.colors.background};
-    flex: 1;
+  background-color: ${({ theme }: any) => theme.colors.background};
+  flex: 1;
 `
 
 export const SafeAreaView = styled.SafeAreaView`
-    background-color: ${({ theme }:any) => theme.colors.background};
-    flex: 1;
+  background-color: ${({ theme }: any) => theme.colors.background};
+  flex: 1;
 `
 
 export const LoadingContainer = styled.View`
-    width: ${width}px;
-    height: ${height}px;
-    position: absolute;
-    top: 0;
-    z-index: 2;
-    background-color: ${({ theme }:any) => theme.colors.background};
+  width: ${width}px;
+  height: ${height}px;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  background-color: ${({ theme }: any) => theme.colors.background};
 `
 
 export const LoadingView = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: ${({ theme }:any) => theme.colors.background};
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }: any) => theme.colors.background};
 `
 
-export const Loading = styled.ActivityIndicator.attrs(({theme, size}:any) => ({
+export const Loading = styled.ActivityIndicator.attrs(
+  ({ theme, size }: any) => ({
     size: size ?? 'large',
     color: theme.colors.white,
-}))``
+  }),
+)``
 
 export const KeyboardView = styled.KeyboardAvoidingView.attrs({
-    behavior: Platform.OS == 'ios' ? 'padding' : 'height',
-  })`
-    flex: 1;
-    margin-bottom: 0px;
-  `
+  behavior: Platform.OS == 'ios' ? 'padding' : 'height',
+})`
+  flex: 1;
+  margin-bottom: 0px;
+`
