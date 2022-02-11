@@ -13,19 +13,22 @@ interface ICardItemProps {
   onPress?: () => void
 }
 
-export const SmallCard : React.FC<ICardDataProps> = ({
-  data
-}):JSX.Element => {
-
-  const _renderCard = ({item, index}: {item: ICardItemProps, index: number}) =>(
-      <S.Button key={index} onPress={item?.onPress}>
-        <S.Overlay>
-          <S.CardImage source={item?.image} />
-          <S.CardTitle size={16} fontWeight='bold'>
-            {item?.title}
-          </S.CardTitle>
-        </S.Overlay>
-      </S.Button>
+export const SmallCard: React.FC<ICardDataProps> = ({ data }): JSX.Element => {
+  const _renderCard = ({
+    item,
+    index,
+  }: {
+    item: ICardItemProps
+    index: number
+  }) => (
+    <S.Button key={index} onPress={item?.onPress}>
+      <S.Overlay>
+        <S.CardImage source={item?.image} />
+        <S.CardTitle size={14} fontWeight='bold'>
+          {item?.title}
+        </S.CardTitle>
+      </S.Overlay>
+    </S.Button>
   )
 
   return (
