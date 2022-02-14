@@ -9,6 +9,18 @@ export interface NewsProps {
   date?: string
 }
 
+export interface LeadershipItemsProps {
+  name: string
+  description: string
+  avatar: string
+  socialMediaUrl: string
+}
+
+export interface LeadershipProps {
+  title: string
+  items: LeadershipItemsProps[]
+}
+
 export function getNews(): Promise<NewsProps[] | null> {
   return new Promise((resolve, reject) => {
     firestore()
@@ -33,6 +45,33 @@ export function getNews(): Promise<NewsProps[] | null> {
             })
           })
           resolve(news)
+        }
+      })
+      .catch((e) => {
+        reject()
+      })
+  })
+}
+
+export function getLeadership(): Promise<LeadershipProps[] | null> {
+  return new Promise((resolve, reject) => {
+    firestore()
+      .collection('leadership')
+      .limit(20)
+      .get()
+      .then((doc) => {
+        if (doc.empty) {
+          resolve(null)
+        } else {
+          const leadership: LeadershipProps[] = []
+          doc.forEach((item) => {
+            const { items, title } = item.data() || {}
+            leadership.push({
+              title,
+              items,
+            })
+          })
+          resolve(leadership)
         }
       })
       .catch((e) => {

@@ -47,12 +47,27 @@ const AuthProvider: React.FC = ({ children }) => {
   }, [])
 
   async function signIn() {
-    const response = await auth.signIn()
-    if (response) {
-      setUser(response?.user)
+    try {
+      setLoading(true)
+      const response = await auth.signIn()
+      if (response) {
+        setUser(response?.user)
 
-      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user))
-      //await AsyncStorage.setItem('@RNAuth:token', response?.idToken)
+        await AsyncStorage.setItem(
+          '@RNAuth:user',
+          JSON.stringify(response.user),
+        )
+        //await AsyncStorage.setItem('@RNAuth:token', response?.idToken)
+      }
+    } catch (err: any) {
+      if (err?.error) {
+        alert.error(err?.error)
+      }
+      if (err?.warning) {
+        alert.warning(err?.warning)
+      }
+    } finally {
+      setLoading(false)
     }
   }
 

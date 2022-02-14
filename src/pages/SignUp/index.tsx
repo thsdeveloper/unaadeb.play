@@ -123,7 +123,7 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
   }
 
   const onSubmit = useCallback(async () => {
-    const { name, email, phone, birthDate } = formFields?.customer || {}
+    const { name, email, phone, birthDate, sector } = formFields?.customer || {}
     const { password, passwordConfirmation } = formFields?.user || {}
 
     if (
@@ -158,6 +158,7 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
         email,
         phone,
         birthDate,
+        sector,
         parentName: formFields?.customer?.parentName ?? '',
         parentCPF: formFields?.customer?.parentCPF ?? '',
       })
@@ -184,8 +185,6 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
     }
     return items
   }, [])
-
-  console.log('rendered')
 
   const sectorItemPress = (sector: string) => {
     onCustomerFieldChange({ sector })

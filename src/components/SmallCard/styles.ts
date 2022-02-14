@@ -15,7 +15,7 @@ export const Button = styled.TouchableOpacity`
 export const Overlay = styled(LinearGradient).attrs({
   colors: ['#171F52', '#1D2766'],
 })`
-  width: ${width / 3 - 20}px;
+  width: ${width / 3 - 30}px;
   align-items: center;
   border: 1px solid #243189;
   border-radius: 8px;

@@ -1,38 +1,49 @@
 import React, { useMemo, useEffect, useCallback, useState } from 'react'
 import { FlatList } from 'react-native'
 
-import {AppPage , ListItem, Avatar, Button, SmallCard, Text} from '~/components'
+import {
+  AppPage,
+  ListItem,
+  Avatar,
+  Button,
+  SmallCard,
+  Text,
+} from '~/components'
 import { useAuth } from '~/contexts/auth'
 import { getNews, NewsProps } from '~/services/storage'
 
 import * as S from './styles'
 
+interface IProps {
+  navigation: any
+}
+
 const LogoIcon = require('../../../assets/images/icons/logo-icon.png')
 const LeadIcon = require('../../../assets/images/icons/lead-icon.png')
 const EventIcon = require('../../../assets/images/icons/date-icon.png')
 
-const Home: React.FC = () => {
-  const {user} = useAuth()
+const Home: React.FC<IProps> = ({ navigation }) => {
+  const { user } = useAuth()
   const { signOut } = useAuth()
   const [news, setNews] = useState<NewsProps[] | null>([])
   const [loading, setLoading] = useState(true)
 
-  const init = useCallback(async() => {
-    try{
+  const init = useCallback(async () => {
+    try {
       const news = await getNews()
-      if(news?.length){
+      if (news?.length) {
         setNews(news)
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     } finally {
       setLoading(false)
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[])
+  }, [])
 
   const cardData = [
     {
@@ -43,11 +54,11 @@ const Home: React.FC = () => {
     {
       title: 'Liderança 2022',
       image: LeadIcon,
-      onPress: () => {},
+      onPress: () => navigation.navigate('Leadership'),
     },
     {
       title: 'Agenda 2022',
-      image: EventIcon
+      image: EventIcon,
     },
     {
       title: 'Congresso 2022',
@@ -57,37 +68,57 @@ const Home: React.FC = () => {
   ]
 
   const renderAvatar = useMemo(() => {
-    if(!user?.photo?.length){
+    if (!user?.photo?.length) {
       const givenName = user?.givenName?.split(' ')
-      const initials = givenName?.map(name => name[0])?.join('')
-      return <Avatar.Text label={initials || ' '} size={53} style={{marginTop: 10, marginRight: 10}} />
+      const initials = givenName?.map((name) => name[0])?.join('')
+      return (
+        <Avatar.Text
+          label={initials || ' '}
+          size={53}
+          style={{ marginTop: 10, marginRight: 10 }}
+        />
+      )
     }
-    return <Avatar.Image size={53} source={{uri: user?.photo}} style={{marginTop: 10, marginRight: 10}}/>
-  },[user?.photo])
+    return (
+      <Avatar.Image
+        size={53}
+        source={{ uri: user?.photo }}
+        style={{ marginTop: 10, marginRight: 10 }}
+      />
+    )
+  }, [user?.photo])
 
-  const _renderNews = ({item, index}: {item: NewsProps, index: number}) => (
-    <ListItem 
+  const _renderNews = ({ item, index }: { item: NewsProps; index: number }) => (
+    <ListItem
       key={index}
-      title={{text: item.title, size: 18}}
+      title={{ text: item.title, size: 18 }}
       customDescription={() => (
         <S.DescriptionView>
           <Text size={13}>{item?.short_description}</Text>
           <S.NewsDateView>
             <S.CalendarIcon />
-            <Text size={13} fontWeight='500'>{item?.date}</Text>
+            <Text size={13} fontWeight='500'>
+              {item?.date}
+            </Text>
           </S.NewsDateView>
         </S.DescriptionView>
       )}
-      left={() => <Avatar.Image size={68} source={{uri: item.image}} style={{marginTop: 10, marginRight: 10}} />}
+      left={() => (
+        <Avatar.Image
+          size={68}
+          source={{ uri: item.image }}
+          style={{ marginTop: 10, marginRight: 10 }}
+        />
+      )}
     />
   )
 
   return (
     <AppPage scroll safeArea fit loading={loading}>
       {user && (
-        <ListItem 
-          title={{text: `Olá, ${user?.givenName || ''}`, size: 24}} 
-          description={{text: 'Hoje é dia de vitória'}} 
+        <ListItem
+          title={{ text: `Olá, ${user?.givenName || ''}`, size: 24 }}
+          description={{ text: 'Hoje é dia de vitória' }}
           left={(_props) => renderAvatar}
         />
       )}
@@ -95,9 +126,11 @@ const Home: React.FC = () => {
         <SmallCard data={cardData} />
       </S.CardView>
 
-      <S.NewsTitle fontWeight='bold' size={20}>Últimas notícias da UNAADEB</S.NewsTitle>
+      <S.NewsTitle fontWeight='bold' size={20}>
+        Últimas notícias da UNAADEB
+      </S.NewsTitle>
 
-      <FlatList 
+      <FlatList
         data={news}
         renderItem={_renderNews}
         scrollEnabled
@@ -105,10 +138,10 @@ const Home: React.FC = () => {
         showsHorizontalScrollIndicator={false}
         pagingEnabled={false}
       />
-    
-      <Button text="Logout" mode='text' onPress={() => signOut()} />
+
+      <Button text='Logout' mode='text' onPress={() => signOut()} />
     </AppPage>
   )
 }
 
-export default Home;
+export default Home
