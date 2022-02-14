@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, Linking, TouchableOpacity } from 'react-native'
 
 import { AppPage, ListItem, Avatar } from '~/components'
 import {
@@ -49,10 +49,15 @@ const Leadership: React.FC<IProps> = ({ navigation }): JSX.Element => {
       <>
         {item.items.map((item, index) => (
           <ListItem
+            key={index}
             title={{ text: item.name, size: 18 }}
             customDescription={() => (
               <S.descriptionView>
-                <S.DescriptionText>{item.description}</S.DescriptionText>
+                <TouchableOpacity
+                  onPress={() => Linking.openURL(item.socialMediaUrl)}
+                >
+                  <S.DescriptionText>{item.description}</S.DescriptionText>
+                </TouchableOpacity>
               </S.descriptionView>
             )}
             left={() => (
