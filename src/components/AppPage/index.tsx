@@ -1,11 +1,16 @@
-import React, { useMemo } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import React, { useEffect, useMemo, useRef, useCallback } from 'react'
 import { Appbar } from 'react-native-paper'
 import { useTheme } from 'styled-components/native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 
-import { Snackbar } from '~/components'
+import { Snackbar, CustomBackdrop } from '~/components'
 import { ISnackbarProps } from '~/components/Snackbar'
-import { Message } from "react-native-flash-message"
+import {
+  BottomSheetModal,
+  BottomSheetProps,
+  BottomSheetBackdrop,
+} from '@gorhom/bottom-sheet'
+
 import * as S from './styles'
 
 interface IheaderProps {
@@ -13,6 +18,11 @@ interface IheaderProps {
   subtitle?: string
   onBackPress?: () => void
   children?: React.ReactNode
+}
+
+interface BottomSheetItemProps extends BottomSheetProps {
+  visible?: boolean
+  onDismiss?: () => void
 }
 interface IAppPageProps {
   fit?: boolean
@@ -23,6 +33,7 @@ interface IAppPageProps {
   header?: IheaderProps
   keyboardAvoidingView?: boolean
   snackbar?: ISnackbarProps
+  bottomSheet?: BottomSheetItemProps
 }
 
 export const AppPage: React.FC<IAppPageProps> = ({
@@ -33,26 +44,33 @@ export const AppPage: React.FC<IAppPageProps> = ({
   loading,
   header,
   keyboardAvoidingView,
-  snackbar
+  snackbar,
+  bottomSheet,
 }) => {
-
   const theme = useTheme()
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
 
-  const statusBarHeight = Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
+  const statusBarHeight = getStatusBarHeight()
+
+  useEffect(() => {
+    if (bottomSheet && bottomSheet?.visible && bottomSheetModalRef?.current) {
+      bottomSheetModalRef.current.present()
+    }
+  }, [bottomSheet, bottomSheetModalRef?.current])
 
   const renderLoading = () => (
-        <S.LoadingContainer>
-          <S.LoadingView>
-            <S.Loading />
-          </S.LoadingView>
-        </S.LoadingContainer>
-      )
+    <S.LoadingContainer>
+      <S.LoadingView>
+        <S.Loading />
+      </S.LoadingView>
+    </S.LoadingContainer>
+  )
 
   const renderContent = () => (
     <>
       {scroll ? (
         <S.ScrollContainer>
-           <S.Container fit={fit} children={children} />
+          <S.Container fit={fit} children={children} />
         </S.ScrollContainer>
       ) : (
         <S.Container fit={fit} children={children} />
@@ -60,42 +78,62 @@ export const AppPage: React.FC<IAppPageProps> = ({
     </>
   )
 
-  const renderHeader = useMemo(() => (header && (
-    <Appbar.Header style={{backgroundColor: theme.colors.blueLight, paddingBottom: 10}} statusBarHeight={statusBarHeight}>
-      <Appbar.BackAction onPress={header.onBackPress} />
-      <Appbar.Content 
-        title={header.title} 
-        subtitle={header?.subtitle} 
-        titleStyle={{fontWeight: 'bold', fontSize: 20}} 
+  const renderHeader = useMemo(
+    () =>
+      header && (
+        <Appbar.Header
+          style={{ backgroundColor: theme.colors.blueLight, paddingBottom: 10 }}
+          statusBarHeight={statusBarHeight}
+        >
+          <Appbar.BackAction onPress={header.onBackPress} />
+          <Appbar.Content
+            title={header.title}
+            subtitle={header?.subtitle}
+            titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
+          />
+          {header?.children}
+        </Appbar.Header>
+      ),
+    [header, theme.colors.blueLight, statusBarHeight],
+  )
+
+  const renderBodyContent = useMemo(
+    () =>
+      safeArea ? (
+        <S.SafeAreaView>{renderContent()}</S.SafeAreaView>
+      ) : (
+        renderContent()
+      ),
+    [safeArea, renderContent],
+  )
+
+  const renderBottomSheet = () =>
+    bottomSheet && (
+      <BottomSheetModal
+        {...bottomSheet}
+        ref={bottomSheetModalRef}
+        backgroundStyle={{ backgroundColor: theme.colors.light }}
+        backdropComponent={CustomBackdrop}
       />
-      {header?.children}
-    </Appbar.Header>
-  )), [header, theme.colors.blueLight, statusBarHeight])
+    )
 
-  const renderBodyContent = useMemo(() => (safeArea ? (
-    <S.SafeAreaView>
-      {renderContent()}
-    </S.SafeAreaView>
-  ): renderContent()
-  ), [safeArea, renderContent])
-
-  if(keyboardAvoidingView) {
+  if (keyboardAvoidingView) {
     return (
-      <S.KeyboardView
-      >
+      <S.KeyboardView>
         {renderHeader}
         {renderBodyContent}
+        {renderBottomSheet()}
         {loading && renderLoading()}
       </S.KeyboardView>
     )
   }
-  
 
   return (
     <>
       {renderHeader}
       {renderBodyContent}
       {snackbar && <Snackbar {...snackbar} />}
+      {renderBottomSheet()}
       {loading && renderLoading()}
     </>
   )
