@@ -1,14 +1,10 @@
 import React, { useMemo, useEffect, useCallback, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, Dimensions } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { useTheme } from 'styled-components/native'
+import { Menu as NPMenu, Divider } from 'react-native-paper'
 
-import {
-  AppPage,
-  ListItem,
-  Avatar,
-  Button,
-  SmallCard,
-  Text,
-} from '~/components'
+import { AppPage, ListItem, Avatar, Menu, SmallCard, Text } from '~/components'
 import { useAuth } from '~/contexts/auth'
 import { getNews, NewsProps } from '~/services/storage'
 
@@ -24,9 +20,12 @@ const EventIcon = require('../../../assets/images/icons/date-icon.png')
 
 const Home: React.FC<IProps> = ({ navigation }) => {
   const { user } = useAuth()
+  const { colors } = useTheme()
+  const { width } = Dimensions.get('window')
   const { signOut } = useAuth()
   const [news, setNews] = useState<NewsProps[] | null>([])
   const [loading, setLoading] = useState(true)
+  const [menuVisible, setMenuVisible] = useState(true)
 
   const init = useCallback(async () => {
     try {
@@ -88,6 +87,31 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     )
   }, [user?.photo])
 
+  const renderEllipsis = () => (
+    <S.EllipsisMenuView>
+      <S.EllipsisButton onPress={() => setMenuVisible(true)}>
+        <Icon name='ellipsis-vertical' size={26} color={colors.secondary} />
+      </S.EllipsisButton>
+      <Menu
+        visible={menuVisible}
+        anchor={{ x: width - 60, y: 80 }}
+        onDismiss={() => setMenuVisible(false)}
+        items={[
+          {
+            title: 'Perfil',
+            onPress: () => {},
+            icon: 'account-circle',
+          },
+          {
+            title: 'Sair',
+            onPress: () => signOut(),
+            icon: 'logout',
+          },
+        ]}
+      />
+    </S.EllipsisMenuView>
+  )
+
   const _renderNews = ({ item, index }: { item: NewsProps; index: number }) => (
     <ListItem
       key={index}
@@ -97,9 +121,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
           <Text size={13}>{item?.short_description}</Text>
           <S.NewsDateView>
             <S.CalendarIcon />
-            <Text size={13} fontWeight='500'>
-              {item?.date}
-            </Text>
+            <S.DateText>{item?.date}</S.DateText>
           </S.NewsDateView>
         </S.DescriptionView>
       )}
@@ -120,6 +142,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
           title={{ text: `Olá, ${user?.givenName || ''}`, size: 24 }}
           description={{ text: 'Hoje é dia de vitória' }}
           left={(_props) => renderAvatar}
+          right={() => renderEllipsis()}
         />
       )}
       <S.CardView>
@@ -138,8 +161,6 @@ const Home: React.FC<IProps> = ({ navigation }) => {
         showsHorizontalScrollIndicator={false}
         pagingEnabled={false}
       />
-
-      <Button text='Logout' mode='text' onPress={() => signOut()} />
     </AppPage>
   )
 }
