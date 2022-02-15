@@ -47,7 +47,7 @@ export function getNews(): Promise<NewsProps[] | null> {
           resolve(news)
         }
       })
-      .catch((e) => {
+      .catch((_e) => {
         reject()
       })
   })
