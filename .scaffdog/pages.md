@@ -15,7 +15,11 @@ import {AppPage} from '~/components'
 
 import * as S from './styles'
 
-const {{ inputs.name | pascal }} : React.FC = ():JSX.Element => {
+interface IProps {
+
+}
+
+const {{ inputs.name | pascal }} : React.FC<IProps> = ():JSX.Element => {
 
 
   return <AppPage />

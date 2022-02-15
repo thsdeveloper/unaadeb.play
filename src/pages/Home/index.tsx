@@ -116,6 +116,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     <ListItem
       key={index}
       title={{ text: item.title, size: 18 }}
+      onPress={() => navigation.navigate('News', { id: item.id })}
       customDescription={() => (
         <S.DescriptionView>
           <Text size={13}>{item?.short_description}</Text>
