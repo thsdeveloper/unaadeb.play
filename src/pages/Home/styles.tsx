@@ -14,7 +14,7 @@ export const NewsTitle = styled(Text)`
 
 export const DescriptionView = styled.View`
   border-bottom-width: 1px;
-  border-bottom-color: #1D2766;
+  border-bottom-color: #1d2766;
   padding-bottom: 15px;
 `
 
@@ -23,10 +23,25 @@ export const NewsDateView = styled.View`
   margin-top: 10px;
 `
 
-export const CalendarIcon = styled(Icon).attrs(({theme}:any) => ({
+export const CalendarIcon = styled(Icon).attrs(({ theme }: any) => ({
   name: 'calendar',
   size: 18,
   color: theme.colors.secondary,
 }))`
   margin-right: 10px;
 `
+
+export const DateText = styled(Text).attrs(({ theme }: any) => ({
+  size: 13,
+  fontWeight: 'normal',
+  customColor: theme.colors.white,
+}))``
+
+export const EllipsisMenuView = styled.View`
+  margin-top: 20px;
+  flex-direction: row;
+`
+
+export const EllipsisButton = styled.TouchableOpacity``
+
+export const MenuItemView = styled.View``

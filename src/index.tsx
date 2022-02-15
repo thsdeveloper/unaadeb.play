@@ -2,7 +2,8 @@ import React from 'react'
 
 import { StatusBar } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { ThemeProvider} from 'styled-components/native'
+import { ThemeProvider } from 'styled-components/native'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
 import { AuthProvider } from '~/contexts/auth'
 import { AlertProvider } from '~/contexts/alert'
@@ -16,9 +17,15 @@ const App: React.FC = () => {
       <ThemeProvider theme={defaultTheme}>
         <AlertProvider>
           <AuthProvider>
-            <StatusBar barStyle='light-content' translucent backgroundColor={'transparent'} />
-            <Routes />
-            <Alert />
+            <BottomSheetModalProvider>
+              <StatusBar
+                barStyle='light-content'
+                translucent
+                backgroundColor={'transparent'}
+              />
+              <Routes />
+              <Alert />
+            </BottomSheetModalProvider>
           </AuthProvider>
         </AlertProvider>
       </ThemeProvider>

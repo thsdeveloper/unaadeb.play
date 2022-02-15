@@ -1,4 +1,10 @@
-import React, {createContext, useState, useEffect, useContext, useCallback} from 'react'
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import AlertContext from '~/contexts/alert'
@@ -22,7 +28,7 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
-const AuthProvider: React.FC = ({children}) => {
+const AuthProvider: React.FC = ({ children }) => {
   const alert = useContext(AlertContext)
 
   const [user, setUser] = useState<User | null>(null)
@@ -30,7 +36,7 @@ const AuthProvider: React.FC = ({children}) => {
 
   useEffect(() => {
     init()
-  },[])
+  }, [])
 
   const init = useCallback(async () => {
     const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
@@ -41,12 +47,27 @@ const AuthProvider: React.FC = ({children}) => {
   }, [])
 
   async function signIn() {
-    const response = await auth.signIn()
-    if(response){
-      setUser(response?.user)
+    try {
+      setLoading(true)
+      const response = await auth.signIn()
+      if (response) {
+        setUser(response?.user)
 
-      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user))
-      //await AsyncStorage.setItem('@RNAuth:token', response?.idToken)
+        await AsyncStorage.setItem(
+          '@RNAuth:user',
+          JSON.stringify(response.user),
+        )
+        //await AsyncStorage.setItem('@RNAuth:token', response?.idToken)
+      }
+    } catch (err: any) {
+      if (err?.error) {
+        alert.error(err?.error)
+      }
+      if (err?.warning) {
+        alert.warning(err?.warning)
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -54,20 +75,22 @@ const AuthProvider: React.FC = ({children}) => {
     try {
       setLoading(true)
       const response = await auth.signInForm(email, password)
-      if(response?.error){
+      if (response?.error) {
         alert.error(response.error)
         return
       }
 
       const getUserInfo = await await auth.getUserInfo(email)
-      if(getUserInfo){
+      if (getUserInfo) {
         setUser(getUserInfo?.user)
-        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(getUserInfo?.user))
+        await AsyncStorage.setItem(
+          '@RNAuth:user',
+          JSON.stringify(getUserInfo?.user),
+        )
       }
-
     } catch (error) {
       alert.error('Falha na autenticação, verifique seus dados')
-    } finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -79,7 +102,8 @@ const AuthProvider: React.FC = ({children}) => {
 
   return (
     <AuthContext.Provider
-      value={{signed: !!user, user, loading, signIn, signOut, signInForm}}>
+      value={{ signed: !!user, user, loading, signIn, signOut, signInForm }}
+    >
       {children}
     </AuthContext.Provider>
   )
@@ -95,4 +119,4 @@ function useAuth() {
   return context
 }
 
-export {AuthProvider, useAuth};
+export { AuthProvider, useAuth }
