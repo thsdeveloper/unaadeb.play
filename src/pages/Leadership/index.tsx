@@ -1,12 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useContext } from 'react'
 import { FlatList, Linking, TouchableOpacity } from 'react-native'
 
-import { AppPage, ListItem, Avatar } from '~/components'
-import {
-  getLeadership,
-  LeadershipProps,
-  LeadershipItemsProps,
-} from '~/services/storage'
+import { AppPage, ListItem, Avatar, NotFound } from '~/components'
+import AlertContext from '~/contexts/alert'
+import { getLeadership, LeadershipProps } from '~/services/storage'
 
 import * as S from './styles'
 
@@ -22,8 +19,10 @@ interface IProps {
 const NoPhoto = require('../../../assets/images/no-photo.png')
 
 const Leadership: React.FC<IProps> = ({ navigation }): JSX.Element => {
+  const alert = useContext(AlertContext)
+
   const [data, setData] = useState<LeadershipProps[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const init = useCallback(async () => {
     setIsLoading(true)
@@ -33,7 +32,7 @@ const Leadership: React.FC<IProps> = ({ navigation }): JSX.Element => {
         setData(data)
       }
     } catch (err) {
-      console.log(err)
+      alert.error('Erro ao carregar as informações de liderança')
     } finally {
       setIsLoading(false)
     }
@@ -84,14 +83,18 @@ const Leadership: React.FC<IProps> = ({ navigation }): JSX.Element => {
       }}
     >
       <S.MainContainer>
-        <FlatList
-          data={data}
-          renderItem={_renderItem}
-          scrollEnabled
-          horizontal={false}
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled={false}
-        />
+        {data.length && !isLoading ? (
+          <FlatList
+            data={data}
+            renderItem={_renderItem}
+            scrollEnabled
+            horizontal={false}
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled={false}
+          />
+        ) : (
+          <NotFound description='Desculpe mas não foi possível exibir esse conteúdo' />
+        )}
       </S.MainContainer>
     </AppPage>
   )

@@ -15,7 +15,11 @@ import { View } from 'react-native'
 
 import * as S from './styles'
 
-export const {{ inputs.name | pascal }} : React.FC = ():JSX.Element => {
+interface IProps {
+
+}
+
+export const {{ inputs.name | pascal }} : React.FC<IProps> = ():JSX.Element => {
 
 
   return <S.Container />
