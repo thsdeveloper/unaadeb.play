@@ -48,7 +48,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     {
       title: 'Congresso 2022',
       image: LogoIcon,
-      onPress: () => {},
+      onPress: () => navigation.navigate('MainEvent'),
     },
     {
       title: 'Liderança 2022',
@@ -58,11 +58,6 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     {
       title: 'Agenda 2022',
       image: EventIcon,
-    },
-    {
-      title: 'Congresso 2022',
-      image: LogoIcon,
-      onPress: () => {},
     },
   ]
 
@@ -147,7 +142,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
         />
       )}
       <S.CardView>
-        <SmallCard data={cardData} />
+        <SmallCard data={cardData} fit={cardData.length > 3} />
       </S.CardView>
 
       <S.NewsTitle fontWeight='bold' size={20}>

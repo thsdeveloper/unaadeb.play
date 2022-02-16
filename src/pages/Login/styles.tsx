@@ -1,50 +1,53 @@
 import styled from 'styled-components/native'
-import { Dimensions, StatusBar } from 'react-native'
+import { Dimensions } from 'react-native'
 
-import { Text, TextInput } from '../../components'
+import { widthPixel, heightPixel, pixelSizeVertical } from '~/utils/responsive'
+import { Text, TextInput } from '~/components'
 
-const { height } = Dimensions.get('window')
+const { height, width } = Dimensions.get('window')
 
 export const Header = styled.View`
   flex: 1;
   height: 40%;
-  max-height: ${height / 3 + 30}px;
+  max-height: ${height / 3 + heightPixel(30)}px;
   margin-top: 10px;
+  align-items: center;
 `
 
 export const BgLogin = styled.ImageBackground.attrs({
   resizeMode: 'contain',
 })`
-  width: 100%;
+  width: ${width}px;
   height: 100%;
   position: absolute;
   bottom: 0;
 `
 
 export const Image = styled.Image.attrs({
-  resizeMode: 'cover',
+  resizeMode: 'contain',
 })`
-  width: 100%;
-  height: 100%;
+  width: ${widthPixel(375)}px;
+  height: ${heightPixel(331)}px;
   justify-content: center;
 `
 
 export const H1 = styled(Text)`
   text-align: center;
-  padding: 0 20px;
+  padding: 0 ${pixelSizeVertical(20)}px;
   line-height: 35px;
 `
 
 export const ContainerButtons = styled.View`
   flex: 1;
-  margin: 40px 40px 10px 40px;
+  margin: ${pixelSizeVertical(40)}px ${pixelSizeVertical(40)}px
+    ${pixelSizeVertical(10)}px ${pixelSizeVertical(40)}px;
 `
 
 export const P = styled(Text)`
   line-height: 25px;
   text-align: center;
-  margin-top: 20px;
-  padding: 0 20px;
+  margin-top: ${pixelSizeVertical(20)}px;
+  padding: 0 ${pixelSizeVertical(20)}px;
 `
 
 export const InputText = styled(TextInput).attrs(({ theme }: any) => ({

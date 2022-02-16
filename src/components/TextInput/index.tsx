@@ -1,26 +1,27 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import { 
-  TextInputProps, 
-  StyleProp, 
-  TextStyle, 
-  KeyboardTypeOptions, 
+import {
+  TextInputProps,
+  StyleProp,
+  TextStyle,
+  KeyboardTypeOptions,
   ReturnKeyType,
-  View 
+  View,
 } from 'react-native'
 import { useTheme } from 'styled-components/native'
-import { 
-  TextInput as Input, 
+import {
+  TextInput as Input,
   DefaultTheme as PaperTheme,
-  HelperText  
+  HelperText,
 } from 'react-native-paper'
 
-import { 
+import {
   nothingFormatter,
   formatterPhoneNumber,
   formatterDate,
   numberFormatter,
-  cpfFormatter
+  cpfFormatter,
 } from '~/utils/format'
+import { widthPixel, heightPixel, fontPixel } from '~/utils/responsive'
 
 interface IInputType {
   name: string
@@ -55,14 +56,7 @@ export interface ITextInputProps extends TextInputProps {
   name?: string
   loading?: boolean
   prefix?: string
-  type?:
-    | 'text'
-    | 'phone'
-    | 'date'
-    | 'number'
-    | 'cpf'
-    | 'password'
-    | 'e-mail'
+  type?: 'text' | 'phone' | 'date' | 'number' | 'cpf' | 'password' | 'e-mail'
   enableEmojis?: boolean
   rightIcon?: string
   rightIconPress?: () => void
@@ -82,7 +76,7 @@ export interface ITextInputProps extends TextInputProps {
   returnKeyType?: ReturnKeyType
 }
 
-export const TextInput : React.FC<ITextInputProps> = ({
+export const TextInput: React.FC<ITextInputProps> = ({
   mode = 'outlined',
   name,
   hasError = false,
@@ -113,14 +107,15 @@ export const TextInput : React.FC<ITextInputProps> = ({
   leftIconColor,
   returnKeyType = 'done',
   ...props
-}):JSX.Element => {
+}): JSX.Element => {
   const theme = useTheme()
   const [textValue, setTextValue] = useState<string>('')
   const [isDeleting, setIsDeleting] = useState<boolean>(false)
   const [securedVisibilityIcon, setSecuredVisibilityIcon] = useState<boolean>(
-    type === 'password'
+    type === 'password',
   )
-  const rgFindEmoji = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g
+  const rgFindEmoji =
+    /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g
 
   useEffect(() => {
     if (!valueIsControlled) {
@@ -179,7 +174,7 @@ export const TextInput : React.FC<ITextInputProps> = ({
           />
         ),
       },
-    [leftIcon, leftIconPress, leftIconColor]
+    [leftIcon, leftIconPress, leftIconColor],
   )
 
   const _inputInfo: IInputType[] = [
@@ -232,7 +227,7 @@ export const TextInput : React.FC<ITextInputProps> = ({
 
   const inputTheme = {
     ...PaperTheme,
-    roundness: 10,
+    roundness: 15,
     colors: {
       primary: theme.colors.secondary,
       text: theme.colors.black,
@@ -244,7 +239,11 @@ export const TextInput : React.FC<ITextInputProps> = ({
     () => (
       <Input
         mode={mode}
-        style={{ backgroundColor: 'transparent'}}
+        style={{
+          backgroundColor: 'transparent',
+          height: heightPixel(40),
+          fontSize: fontPixel(14),
+        }}
         label={name}
         disabled={loading}
         error={hasError}
@@ -252,6 +251,7 @@ export const TextInput : React.FC<ITextInputProps> = ({
         placeholder={placeholder}
         maxLength={maxLength || inputType.length}
         secureTextEntry={securedVisibilityIcon}
+        dense={true}
         onChangeText={(text) => {
           const _text = enableEmojis
             ? text
@@ -300,7 +300,7 @@ export const TextInput : React.FC<ITextInputProps> = ({
       rgFindEmoji,
       isDeleting,
       onChangeText,
-    ]
+    ],
   )
 
   const renderError = useMemo(
@@ -313,14 +313,12 @@ export const TextInput : React.FC<ITextInputProps> = ({
         {hasError ? errorDescription : description}
       </HelperText>
     ),
-    [description, errorDescription, hasError, inputTheme]
+    [description, errorDescription, hasError, inputTheme],
   )
 
   return (
     <>
-      <View style={{ position: 'relative' }}>
-        {renderInput}
-      </View>
+      <View style={{ position: 'relative' }}>{renderInput}</View>
       {renderError}
     </>
   )

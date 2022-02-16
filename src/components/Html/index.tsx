@@ -11,10 +11,10 @@ interface IProps {
 
 const tagsStyles: Readonly<Record<string, MixedStyleDeclaration>> = {
   body: {
-    whiteSpace: 'normal',
-    color: '#fff',
+    color: '#DDE3F0',
     fontSize: 16,
     lineHeight: 24,
+    whiteSpace: 'normal',
   },
   a: {
     color: '#E51C44',
