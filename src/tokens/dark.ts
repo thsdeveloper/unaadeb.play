@@ -13,6 +13,7 @@ export const darkTheme: DefaultTheme = {
       color: '#DDE3F0',
       size: '12px',
       sizeNumber: 12,
+      fontFamily: 'Inter-Regular',
     },
     small: {
       color: '#DDE3F0',
@@ -49,5 +50,7 @@ export const darkTheme: DefaultTheme = {
     brown: '#4F4F4F',
     blueLight: '#1D2766',
     black: '#000',
+    green: '#32BD50',
+    orange: '#FFCA28',
   },
 }

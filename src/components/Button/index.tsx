@@ -12,7 +12,7 @@ interface IconProps {
   color?: string
 }
 
-interface IButtonProps {
+export interface IButtonProps {
   text: string
   icon?: IconProps
   color?: string
@@ -49,13 +49,11 @@ export const Button: React.FC<IButtonProps> = ({
     justifyContent: 'space-between',
   }
 
-  const styleContent = !!icon
-    ? {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        textAlign: 'center',
-      }
-    : {}
+  const styleContent = !!icon && {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    textAlign: 'center',
+  }
 
   const renderIcons = () => {
     const { size, name, color } = icon || {}

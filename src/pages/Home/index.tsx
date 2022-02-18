@@ -2,7 +2,6 @@ import React, { useMemo, useEffect, useCallback, useState } from 'react'
 import { FlatList, Dimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useTheme } from 'styled-components/native'
-import { Menu as NPMenu, Divider } from 'react-native-paper'
 
 import { AppPage, ListItem, Avatar, Menu, SmallCard, Text } from '~/components'
 import { useAuth } from '~/contexts/auth'
