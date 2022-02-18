@@ -163,6 +163,7 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
         parentCPF: formFields?.customer?.parentCPF ?? '',
       })
       .then(() => {
+        navigation.navigate('Login')
         alert.success('Parabéns! Você já pode fazer login no app!')
       })
       .catch((_error) => {

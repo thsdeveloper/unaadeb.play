@@ -6,6 +6,10 @@ import { heightPixel } from '~/utils/responsive'
 
 const { width } = Dimensions.get('window')
 
+interface ContainerProps {
+  fit: boolean
+}
+
 export const Container = styled.View``
 
 export const Button = styled.TouchableOpacity`
@@ -14,8 +18,9 @@ export const Button = styled.TouchableOpacity`
 
 export const Overlay = styled(LinearGradient).attrs({
   colors: ['#171F52', '#1D2766'],
-})`
-  width: ${width / 3 - 30}px;
+})<ContainerProps>`
+  width: ${({ fit }: ContainerProps) =>
+    fit ? width / 3 - 30 : width / 3 - 20}px;
   align-items: center;
   border: 1px solid #243189;
   border-radius: 8px;

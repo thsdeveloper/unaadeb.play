@@ -78,7 +78,7 @@ const Login: React.FC = ({ navigation }: any) => {
       <S.H1 fontWeight='bold' size={35}>
         Junte-se a milhares de adolescentes com propósitos!
       </S.H1>
-      <S.P fontWeight='400' size={15}>
+      <S.P fontWeight='400' size={16}>
         Entre agora com o login nas redes sociais ou cadastre-se com e-mail e
         senha.
       </S.P>

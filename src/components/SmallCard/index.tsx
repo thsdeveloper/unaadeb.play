@@ -5,6 +5,7 @@ import * as S from './styles'
 
 interface ICardDataProps {
   data: ICardItemProps[]
+  fit?: boolean
 }
 
 interface ICardItemProps {
@@ -13,7 +14,10 @@ interface ICardItemProps {
   onPress?: () => void
 }
 
-export const SmallCard: React.FC<ICardDataProps> = ({ data }): JSX.Element => {
+export const SmallCard: React.FC<ICardDataProps> = ({
+  data,
+  fit,
+}): JSX.Element => {
   const _renderCard = ({
     item,
     index,
@@ -22,7 +26,7 @@ export const SmallCard: React.FC<ICardDataProps> = ({ data }): JSX.Element => {
     index: number
   }) => (
     <S.Button key={index} onPress={item?.onPress}>
-      <S.Overlay>
+      <S.Overlay fit={fit}>
         <S.CardImage source={item?.image} />
         <S.CardTitle size={14} fontWeight='bold'>
           {item?.title}

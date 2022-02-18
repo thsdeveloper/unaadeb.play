@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { Platform, Dimensions } from 'react-native'
+import { Button } from '~/components'
 
 interface ContainerProps {
   fit: boolean
@@ -57,3 +58,15 @@ export const KeyboardView = styled.KeyboardAvoidingView.attrs({
   flex: 1;
   margin-bottom: 0px;
 `
+
+export const FooterButtonView = styled.View`
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 10px 20px 30px 20px;
+  background-color: ${({ theme }: any) => theme.colors.background};
+`
+
+export const FooterButton = styled(Button).attrs({
+  mode: 'contained',
+})``

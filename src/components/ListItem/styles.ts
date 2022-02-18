@@ -1,15 +1,20 @@
 import styled from 'styled-components/native'
+import { Text } from '~/components'
 
 import { TextProps } from './'
 
-export const ListText = styled.Text`
-  font-size: ${({ size }: TextProps) => size || 16}px;
-  font-weight: 700;
-  color: ${({ color, theme }: TextProps | any) => color || theme.colors.white};
-`
-export const ListDescription = styled.Text`
-  font-size: ${({ size }: TextProps) => size || 16}px;
+export const ListText = styled(Text).attrs(
+  ({ theme, size }: any | TextProps) => ({
+    size: size || 16,
+    fontWeight: 'bold',
+  }),
+)``
+export const ListDescription = styled(Text).attrs(
+  ({ size, theme }: any | TextProps) => ({
+    size: size || 16,
+    fontWeight: 'normal',
+    color: theme.text.default.color,
+  }),
+)`
   margin-top: 5px;
-  font-weight: 300;
-  color: #ffff;
 `

@@ -2,7 +2,6 @@ import React, { useMemo, useEffect, useCallback, useState } from 'react'
 import { FlatList, Dimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useTheme } from 'styled-components/native'
-import { Menu as NPMenu, Divider } from 'react-native-paper'
 
 import { AppPage, ListItem, Avatar, Menu, SmallCard, Text } from '~/components'
 import { useAuth } from '~/contexts/auth'
@@ -48,7 +47,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     {
       title: 'Congresso 2022',
       image: LogoIcon,
-      onPress: () => {},
+      onPress: () => navigation.navigate('MainEvent'),
     },
     {
       title: 'Liderança 2022',
@@ -58,11 +57,6 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     {
       title: 'Agenda 2022',
       image: EventIcon,
-    },
-    {
-      title: 'Congresso 2022',
-      image: LogoIcon,
-      onPress: () => {},
     },
   ]
 
@@ -147,7 +141,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
         />
       )}
       <S.CardView>
-        <SmallCard data={cardData} />
+        <SmallCard data={cardData} fit={cardData.length > 3} />
       </S.CardView>
 
       <S.NewsTitle fontWeight='bold' size={20}>

@@ -58,11 +58,9 @@ const News: React.FC<IProps> = ({ route, navigation }): JSX.Element => {
               </S.NewsHeader>
             </S.ContainerHeader>
             <S.Container>
-              <S.NewsLongDescription>
-                {data?.long_description && (
-                  <Html html={{ html: data?.long_description }} />
-                )}
-              </S.NewsLongDescription>
+              {data?.long_description && (
+                <Html html={{ html: `${data?.long_description}` }} />
+              )}
               <S.NewsFooter>
                 <S.CalendarIcon />
                 <S.NewsDate>{`Postado ${data?.date}`}</S.NewsDate>

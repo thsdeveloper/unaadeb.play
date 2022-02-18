@@ -3,6 +3,7 @@ import { ViewStyle, StyleProp } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import Icon from 'react-native-vector-icons/AntDesign'
 
+import { fontPixel } from '~/utils/responsive'
 import * as S from './styles'
 
 interface IconProps {
@@ -11,7 +12,7 @@ interface IconProps {
   color?: string
 }
 
-interface IButtonProps {
+export interface IButtonProps {
   text: string
   icon?: IconProps
   color?: string
@@ -24,7 +25,7 @@ interface IButtonProps {
   style?: StyleProp<ViewStyle>
 }
 
-export const Button : React.FC<IButtonProps> = ({
+export const Button: React.FC<IButtonProps> = ({
   text,
   icon,
   color,
@@ -34,12 +35,12 @@ export const Button : React.FC<IButtonProps> = ({
   disabled = false,
   textSize,
   onPress,
-  style
-}):JSX.Element => {
+  style,
+}): JSX.Element => {
   const { colors } = useTheme()
 
   const labelStyle = {
-    fontSize: textSize || 16,
+    fontSize: textSize || fontPixel(16),
     fontWeight: 'normal',
     paddingTop: 10,
     paddingBottom: 10,
@@ -48,29 +49,40 @@ export const Button : React.FC<IButtonProps> = ({
     justifyContent: 'space-between',
   }
 
-  const styleContent = !!icon ? {
+  const styleContent = !!icon && {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     textAlign: 'center',
-  } : {}
+  }
 
-  const renderIcons =  () => {
-    const {size, name, color} = icon || {}
-    return name && (<S.ViewIcon><Icon name={name} size={size || 16} color={color || colors.white} /></S.ViewIcon>)
+  const renderIcons = () => {
+    const { size, name, color } = icon || {}
+    return (
+      name && (
+        <S.ViewIcon>
+          <Icon
+            name={name}
+            size={fontPixel(size) || fontPixel(16)}
+            color={color || colors.white}
+          />
+        </S.ViewIcon>
+      )
+    )
   }
 
   return (
-    <S.Button 
-      uppercase={upperCase} 
-      mode={mode} 
-      color={!color ? colors.secondary : color} 
+    <S.Button
+      uppercase={upperCase}
+      mode={mode}
+      color={!color ? colors.secondary : color}
       icon={icon && renderIcons}
       labelStyle={labelStyle}
       contentStyle={[styleContent, style]}
       loading={loading}
       disabled={disabled}
-      onPress={onPress}>
-        {text}
+      onPress={onPress}
+    >
+      {text}
     </S.Button>
   )
 }

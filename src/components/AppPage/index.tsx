@@ -4,6 +4,7 @@ import { useTheme } from 'styled-components/native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 
 import { Snackbar, CustomBackdrop } from '~/components'
+import { IButtonProps } from '~/components/Button'
 import { ISnackbarProps } from '~/components/Snackbar'
 import {
   BottomSheetModal,
@@ -24,6 +25,11 @@ interface BottomSheetItemProps extends BottomSheetProps {
   visible?: boolean
   onDismiss?: () => void
 }
+
+interface FooterButtonProps {
+  onPress?: () => void
+  buttonProps?: IButtonProps
+}
 interface IAppPageProps {
   fit?: boolean
   children: React.ReactNode
@@ -34,6 +40,7 @@ interface IAppPageProps {
   keyboardAvoidingView?: boolean
   snackbar?: ISnackbarProps
   bottomSheet?: BottomSheetItemProps
+  footerButton?: FooterButtonProps
 }
 
 export const AppPage: React.FC<IAppPageProps> = ({
@@ -46,6 +53,7 @@ export const AppPage: React.FC<IAppPageProps> = ({
   keyboardAvoidingView,
   snackbar,
   bottomSheet,
+  footerButton,
 }) => {
   const theme = useTheme()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -66,14 +74,27 @@ export const AppPage: React.FC<IAppPageProps> = ({
     </S.LoadingContainer>
   )
 
+  const renderFooterButton = () => (
+    <S.FooterButtonView>
+      <S.FooterButton {...footerButton?.buttonProps} />
+    </S.FooterButtonView>
+  )
+
   const renderContent = () => (
     <>
       {scroll ? (
-        <S.ScrollContainer>
-          <S.Container fit={fit} children={children} />
-        </S.ScrollContainer>
+        <>
+          <S.ScrollContainer>
+            <S.Container fit={fit} children={children} />
+          </S.ScrollContainer>
+
+          {footerButton && renderFooterButton()}
+        </>
       ) : (
-        <S.Container fit={fit} children={children} />
+        <>
+          <S.Container fit={fit} children={children} />
+          {footerButton && renderFooterButton()}
+        </>
       )}
     </>
   )

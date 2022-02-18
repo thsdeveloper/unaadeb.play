@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 export const Container = styled.View`
   flex: 1;
   padding: 0 20px;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: 20px;
 `
 
