@@ -57,6 +57,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     {
       title: 'Agenda 2022',
       image: EventIcon,
+      onPress: () => navigation.navigate('Agenda'),
     },
   ]
 
