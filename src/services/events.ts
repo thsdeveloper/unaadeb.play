@@ -2,7 +2,6 @@ import firestore from '@react-native-firebase/firestore'
 import { format } from 'date-fns'
 import pt from 'date-fns/locale/pt'
 import { dateRange, PERIOD } from '~/utils/dates'
-import { getDeviceInfo } from '~/utils/device'
 
 export interface Event {
   title: string

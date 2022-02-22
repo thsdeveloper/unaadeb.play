@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
-import { FlatList, TouchableOpacity, Linking } from 'react-native'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
+import { FlatList } from 'react-native'
+import { format } from 'date-fns'
+import pt from 'date-fns/locale/pt'
 
+import AlertContext from '~/contexts/alert'
 import { AppPage, NotFound, ListItem, Avatar } from '~/components'
+import { list, AgendaProps } from '~/services/agenda'
 
 import * as S from './styles'
 
@@ -15,44 +19,43 @@ interface ListProps {
 }
 
 const Agenda: React.FC<IProps> = ({ navigation }): JSX.Element => {
-  const [isLoading, setIsLoading] = useState(false)
+  const alert = useContext(AlertContext)
 
-  const data = [
-    {
-      date: '05 de Março de 2022 - Sábado',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/unaadeb-a6c93.appspot.com/o/news_1.png?alt=media&token=c64af2e4-6d83-4604-adbc-efec9557329d',
-      title: 'Reunião de liderança',
-      subtitle: 'Auditório da UFSCar',
-      shortDescription: 'Reunião de liderança',
-      longDescription: 'Reunião de liderança',
-      geolocation: '',
-    },
-    {
-      date: '05 de Março de 2022 - Sábado',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/unaadeb-a6c93.appspot.com/o/news_1.png?alt=media&token=c64af2e4-6d83-4604-adbc-efec9557329d',
-      title: 'Reunião de liderança',
-      subtitle: 'Auditório da UFSCar',
-      shortDescription: 'Reunião de liderança',
-      longDescription: 'Reunião de liderança',
-      geolocation: '',
-    },
-  ]
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, setData] = useState<AgendaProps[]>([])
+
+  const init = useCallback(async () => {
+    try {
+      const agenda = await list()
+      if (agenda) {
+        setData(agenda)
+      }
+    } catch {
+      alert.error('Erro ao carregar agenda')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    init()
+  }, [init])
 
   const _renderItem = ({ item, index }: ListProps): JSX.Element => (
     <S.ContainerItem key={index}>
-      <S.ItemTitle>{item.date}</S.ItemTitle>
+      <S.ItemTitle>
+        {format(item.date, "dd 'de' MMMM 'de' yyyy", { locale: pt })}
+      </S.ItemTitle>
       <>
         <ListItem
           key={index}
           title={{ text: item.title, size: 18 }}
           customDescription={() => (
             <S.descriptionView>
-              <S.DescriptionText>{item.subtitle}</S.DescriptionText>
+              <S.DescriptionText>{`Local: ${item.address}`}</S.DescriptionText>
             </S.descriptionView>
           )}
-          onPress={() => navigation.navigate('AgendaDetails')}
+          onPress={() => navigation.navigate('AgendaDetails', { id: item.id })}
           left={() => (
             <Avatar.Image
               size={68}
@@ -69,7 +72,7 @@ const Agenda: React.FC<IProps> = ({ navigation }): JSX.Element => {
     <AppPage
       fit={true}
       safeArea
-      scroll
+      loading={isLoading}
       header={{
         title: 'Agenda',
         onBackPress: () => navigation.pop(),

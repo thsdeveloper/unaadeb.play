@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useCallback } from 'react'
 import { Appbar } from 'react-native-paper'
+import { FlatList } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 
@@ -34,6 +35,7 @@ interface IAppPageProps {
   fit?: boolean
   children: React.ReactNode
   scroll?: boolean
+  scrolType?: 'scrollview' | 'flatlist'
   safeArea?: boolean
   loading?: boolean
   header?: IheaderProps
@@ -46,6 +48,7 @@ interface IAppPageProps {
 export const AppPage: React.FC<IAppPageProps> = ({
   fit = true,
   scroll = false,
+  scrolType = 'scrollview',
   children,
   safeArea,
   loading,
@@ -84,9 +87,22 @@ export const AppPage: React.FC<IAppPageProps> = ({
     <>
       {scroll ? (
         <>
-          <S.ScrollContainer>
-            <S.Container fit={fit} children={children} />
-          </S.ScrollContainer>
+          {scrolType === 'scrollview' ? (
+            <S.ScrollContainer>
+              <S.Container fit={fit} children={children} />
+            </S.ScrollContainer>
+          ) : (
+            <S.FlatListView
+              data={[]}
+              keyExtractor={(_item: any, index: number) => index.toString()}
+              initialNumToRender={1}
+              renderItem={null}
+              ListHeaderComponent={<>{children}</>}
+              keyboardShouldPersistTaps='always'
+              showsVerticalScrollIndicator={false}
+              fit={fit}
+            />
+          )}
 
           {footerButton && renderFooterButton()}
         </>
@@ -110,7 +126,7 @@ export const AppPage: React.FC<IAppPageProps> = ({
           <Appbar.Content
             title={header.title}
             subtitle={header?.subtitle}
-            titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
+            titleStyle={{ fontWeight: '700', fontSize: 20 }}
           />
           {header?.children}
         </Appbar.Header>

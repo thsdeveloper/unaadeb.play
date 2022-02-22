@@ -59,3 +59,16 @@ export const Title = styled(Text).attrs({
 })`
   margin: 3px 0;
 `
+
+export const ButtonRoundedView = styled.View`
+  margin-top: 20px;
+  flex-direction: row;
+`
+
+export const DescriptionView = styled.View`
+  margin-top: 30px;
+`
+
+export const GeolocationButtonView = styled.View`
+  margin-top: 30px;
+`

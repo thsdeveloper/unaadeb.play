@@ -1,9 +1,9 @@
 import React from 'react'
-import { FlatList, ImageSourcePropType } from 'react-native'
+import { ImageSourcePropType, ViewStyle, ScrollView } from 'react-native'
 
 import * as S from './styles'
 
-interface ICardDataProps {
+interface ICardDataProps extends ViewStyle {
   data: ICardItemProps[]
   fit?: boolean
 }
@@ -17,6 +17,7 @@ interface ICardItemProps {
 export const SmallCard: React.FC<ICardDataProps> = ({
   data,
   fit,
+  ...props
 }): JSX.Element => {
   const _renderCard = ({
     item,
@@ -36,16 +37,20 @@ export const SmallCard: React.FC<ICardDataProps> = ({
   )
 
   return (
-    <S.Container>
-      <FlatList
-        data={data}
-        renderItem={_renderCard}
-        horizontal
-        scrollEnabled
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled={false}
-        snapToAlignment='center'
-      />
+    <S.Container {...props}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {data &&
+          data.map((item, index) => (
+            <S.Button key={index} onPress={item?.onPress}>
+              <S.Overlay fit={fit}>
+                <S.CardImage source={item?.image} />
+                <S.CardTitle size={14} fontWeight='bold'>
+                  {item?.title}
+                </S.CardTitle>
+              </S.Overlay>
+            </S.Button>
+          ))}
+      </ScrollView>
     </S.Container>
   )
 }

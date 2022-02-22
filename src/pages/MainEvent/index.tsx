@@ -99,7 +99,6 @@ const MainEvent: React.FC<IProps> = ({ navigation }): JSX.Element => {
   }, [user?.email])
 
   const subscribeBtnIcon = useMemo(() => {
-    console.log(subscribed)
     return { name: subscribed ? 'youtube' : 'plus', size: 30 }
   }, [subscribed])
 
@@ -160,6 +159,7 @@ const MainEvent: React.FC<IProps> = ({ navigation }): JSX.Element => {
     <AppPage
       fit={false}
       scroll
+      scrolType='flatlist'
       safeArea
       loading={loading}
       header={{

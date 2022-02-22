@@ -16,7 +16,7 @@ export interface IButtonProps {
   text: string
   icon?: IconProps
   color?: string
-  mode?: 'contained' | 'outlined' | 'text'
+  mode?: 'contained' | 'outlined' | 'text' | 'rounded'
   upperCase?: boolean
   textSize?: number
   loading?: boolean
@@ -67,6 +67,22 @@ export const Button: React.FC<IButtonProps> = ({
           />
         </S.ViewIcon>
       )
+    )
+  }
+
+  if (mode === 'rounded') {
+    return (
+      <S.ButtonRounded color={color} onPress={onPress}>
+        {icon?.name && !loading && (
+          <Icon
+            name={icon?.name}
+            size={fontPixel(icon?.size) || fontPixel(16)}
+            color={icon?.color || colors.white}
+          />
+        )}
+        {loading && <S.Loading size='small' />}
+        <S.ButtonRoundedText>{text}</S.ButtonRoundedText>
+      </S.ButtonRounded>
     )
   }
 
