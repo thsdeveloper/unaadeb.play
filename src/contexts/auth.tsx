@@ -89,7 +89,6 @@ const AuthProvider: React.FC = ({ children }) => {
         )
       }
     } catch (error) {
-      console.log(error)
       alert.error('Falha na autenticação, verifique seus dados')
     } finally {
       setLoading(false)

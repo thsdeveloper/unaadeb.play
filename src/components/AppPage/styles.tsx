@@ -24,6 +24,13 @@ export const ScrollContainer = styled.ScrollView.attrs({
   flex: 1;
 `
 
+export const FlatListView = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+})<ContainerProps>`
+  background-color: ${({ theme }: any) => theme.colors.background};
+  margin: 0 ${({ fit }: ContainerProps) => (!fit ? 0 : '20px')};
+`
+
 export const SafeAreaView = styled.SafeAreaView`
   background-color: ${({ theme }: any) => theme.colors.background};
   flex: 1;

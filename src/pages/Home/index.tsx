@@ -33,7 +33,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
         setNews(news)
       }
     } catch (e) {
-      console.log(e)
+      setNews([])
     } finally {
       setLoading(false)
     }
@@ -57,6 +57,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     {
       title: 'Agenda 2022',
       image: EventIcon,
+      onPress: () => navigation.navigate('Agenda'),
     },
   ]
 
@@ -131,7 +132,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
   )
 
   return (
-    <AppPage scroll safeArea fit loading={loading}>
+    <AppPage scroll scrolType='flatlist' safeArea fit loading={loading}>
       {user && (
         <ListItem
           title={{ text: `Olá, ${user?.givenName || ''}`, size: 24 }}

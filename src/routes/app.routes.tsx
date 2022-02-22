@@ -6,6 +6,8 @@ import Home from '~/pages/Home'
 import Leadership from '~/pages/Leadership'
 import News from '~/pages/News'
 import MainEvent from '~/pages/MainEvent'
+import Agenda from '~/pages/Agenda'
+import AgendaDetails from '~/pages/AgendaDetails'
 
 const AppStack = createStackNavigator()
 
@@ -16,6 +18,8 @@ const AppRoutes: React.FC = () => (
       <AppStack.Screen name='Leadership' component={Leadership} />
       <AppStack.Screen name='News' component={News} />
       <AppStack.Screen name='MainEvent' component={MainEvent} />
+      <AppStack.Screen name='Agenda' component={Agenda} />
+      <AppStack.Screen name='AgendaDetails' component={AgendaDetails} />
     </AppStack.Navigator>
   </NavigationContainer>
 )

@@ -1,11 +1,11 @@
 import React from 'react'
-import { useWindowDimensions } from 'react-native'
+import { useWindowDimensions, View, ViewProps } from 'react-native'
 import RenderHtml, {
   HTMLSource,
   MixedStyleDeclaration,
 } from 'react-native-render-html'
 
-interface IProps {
+interface IProps extends ViewProps {
   html: HTMLSource
 }
 
@@ -25,10 +25,12 @@ const tagsStyles: Readonly<Record<string, MixedStyleDeclaration>> = {
   },
 }
 
-export const Html: React.FC<IProps> = ({ html }): JSX.Element => {
+export const Html: React.FC<IProps> = ({ html, ...props }): JSX.Element => {
   const { width } = useWindowDimensions()
 
   return (
-    <RenderHtml contentWidth={width} source={html} tagsStyles={tagsStyles} />
+    <View {...props}>
+      <RenderHtml contentWidth={width} source={html} tagsStyles={tagsStyles} />
+    </View>
   )
 }

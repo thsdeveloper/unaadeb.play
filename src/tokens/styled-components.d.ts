@@ -52,6 +52,7 @@ declare module 'styled-components' {
       black: string
       green: string
       orange: string
+      darkGreen: string
     }
   }
 }
