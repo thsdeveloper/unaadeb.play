@@ -9,13 +9,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 
 import AlertContext from '~/contexts/alert'
 import * as auth from '../services/auth'
-
-interface User {
-  name: string
-  email: string
-  photo?: string
-  givenName: string
-}
+import { User } from '~/services/auth'
 
 interface AuthContextData {
   signed: boolean
@@ -49,15 +43,31 @@ const AuthProvider: React.FC = ({ children }) => {
   async function signIn() {
     try {
       setLoading(true)
-      const response = await auth.signIn()
+      const response: any = await auth.signIn()
       if (response) {
-        setUser(response?.user)
+        const getUserInfo: any = await auth.getUserInfo(response?.user?.email)
+        if (getUserInfo) {
+          const sanitizeData = {
+            ...getUserInfo.user,
+            photo: getUserInfo.photo || response.user.photo,
+            userType: response.user.userType,
+          }
+          setUser(sanitizeData)
 
-        await AsyncStorage.setItem(
-          '@RNAuth:user',
-          JSON.stringify(response.user),
-        )
-        //await AsyncStorage.setItem('@RNAuth:token', response?.idToken)
+          await AsyncStorage.setItem(
+            '@RNAuth:user',
+            JSON.stringify(sanitizeData),
+          )
+        } else {
+          setUser(response?.user)
+
+          await AsyncStorage.setItem(
+            '@RNAuth:user',
+            JSON.stringify(response?.user),
+          )
+        }
+      } else {
+        throw new Error('Falha ao realizar login')
       }
     } catch (err: any) {
       if (err?.error) {
@@ -74,13 +84,13 @@ const AuthProvider: React.FC = ({ children }) => {
   async function signInForm(email: string, password: string) {
     try {
       setLoading(true)
-      const response = await auth.signInForm(email, password)
+      const response: any = await auth.signInForm(email, password)
       if (response?.error) {
         alert.error(response.error)
         return
       }
 
-      const getUserInfo = await await auth.getUserInfo(email)
+      const getUserInfo: any = await auth.getUserInfo(email)
       if (getUserInfo) {
         setUser(getUserInfo?.user)
         await AsyncStorage.setItem(

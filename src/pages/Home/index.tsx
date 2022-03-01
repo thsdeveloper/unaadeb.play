@@ -82,6 +82,13 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     )
   }, [user?.photo])
 
+  const goToProfile = () => {
+    setMenuVisible(false)
+    setTimeout(() => {
+      navigation.navigate('Profile')
+    }, 300)
+  }
+
   const renderEllipsis = () => (
     <S.EllipsisMenuView>
       <S.EllipsisButton onPress={() => setMenuVisible(true)}>
@@ -94,8 +101,8 @@ const Home: React.FC<IProps> = ({ navigation }) => {
         items={[
           {
             title: 'Perfil',
-            onPress: () => {},
             icon: 'account-circle',
+            onPress: goToProfile,
           },
           {
             title: 'Sair',
@@ -110,11 +117,11 @@ const Home: React.FC<IProps> = ({ navigation }) => {
   const _renderNews = ({ item, index }: { item: NewsProps; index: number }) => (
     <ListItem
       key={index}
-      title={{ text: item.title, size: 18 }}
+      title={{ text: item.title, size: 20 }}
       onPress={() => navigation.navigate('News', { id: item.id })}
       customDescription={() => (
         <S.DescriptionView>
-          <Text size={13}>{item?.short_description}</Text>
+          <Text size={16}>{item?.short_description}</Text>
           <S.NewsDateView>
             <S.CalendarIcon />
             <S.DateText>{item?.date}</S.DateText>
@@ -135,17 +142,18 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     <AppPage scroll scrolType='flatlist' safeArea fit loading={loading}>
       {user && (
         <ListItem
-          title={{ text: `Olá, ${user?.givenName || ''}`, size: 24 }}
+          title={{ text: `Olá, ${user?.givenName || ''}`, size: 26 }}
           description={{ text: 'Hoje é dia de vitória' }}
           left={(_props) => renderAvatar}
           right={() => renderEllipsis()}
+          style={{ marginTop: 20 }}
         />
       )}
       <S.CardView>
         <SmallCard data={cardData} fit={cardData.length > 3} />
       </S.CardView>
 
-      <S.NewsTitle fontWeight='bold' size={20}>
+      <S.NewsTitle fontWeight='bold' size={24}>
         Últimas notícias da UNAADEB
       </S.NewsTitle>
 

@@ -46,31 +46,31 @@ export const HeaderTextConteainer = styled.View`
 `
 
 export const EventTitle = styled(Text).attrs({
-  size: 28,
+  size: 32,
   fontWeight: 'bold',
 })`
   margin-bottom: 10px;
 `
 
 export const EventSubTitle = styled(Text).attrs({
-  size: 14,
+  size: 18,
   fontWeight: 'normal',
-  lineHeight: 24,
+  lineHeight: 22,
 })``
 
 export const ContainerBody = styled.View`
   padding: 10px 0;
-  margin: 20px 20px 100px 20px;
+  margin: 30px 20px 100px 20px;
 `
 
 export const EventDate = styled(Text).attrs({
-  size: 18,
+  size: 26,
   fontWeight: 'bold',
   lineHeight: 23,
 })``
 
 export const EventLocal = styled(Text).attrs({
-  size: 18,
+  size: 22,
   fontWeight: 'bold',
   lineHeight: 23,
 })`
@@ -85,7 +85,7 @@ export const HeadlineList = styled.View`
 `
 
 export const HeadLineText = styled(Text).attrs({
-  size: 18,
+  size: 22,
   fontWeight: 'bold',
   lineHeight: 23,
 })`
@@ -93,7 +93,7 @@ export const HeadLineText = styled(Text).attrs({
 `
 
 export const HeadLineCount = styled(Text).attrs({
-  size: 13,
+  size: 16,
   fontWeight: 'normal',
   lineHeight: 23,
 })``
@@ -104,7 +104,7 @@ export const EventDescView = styled.View`
 `
 
 export const EventDescText = styled(Text).attrs({
-  size: 13,
+  size: 16,
   fontWeight: 'normal',
   lineHeight: 18,
 })``

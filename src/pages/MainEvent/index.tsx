@@ -114,7 +114,7 @@ const MainEvent: React.FC<IProps> = ({ navigation }): JSX.Element => {
           {item[title].map((event: { info: AgendaItem }, key: number) => (
             <ListItem
               key={key}
-              title={{ text: event.info.name, size: 18 }}
+              title={{ text: event.info.name, size: 22 }}
               customDescription={() => (
                 <S.EventInfoView>
                   <S.EventDescView>
@@ -180,6 +180,7 @@ const MainEvent: React.FC<IProps> = ({ navigation }): JSX.Element => {
               : 'Assistir ao Congresso - ao vivo',
             mode: 'contained',
             icon: subscribeBtnIcon,
+            textSize: 12,
           },
         }
       }

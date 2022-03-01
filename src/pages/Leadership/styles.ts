@@ -12,7 +12,7 @@ export const ContainerItem = styled.View`
 
 export const ItemTitle = styled(Text).attrs(({ theme }: any) => ({
   fontWeight: 'bold',
-  size: 20,
+  size: 22,
   customColor: theme.colors.secondary,
 }))`
   padding-left: 10px;
@@ -23,7 +23,7 @@ export const descriptionView = styled.View`
 `
 
 export const DescriptionText = styled(Text).attrs(({ theme }: any) => ({
-  size: 14,
+  size: 18,
   fontWight: '300',
   color: theme.colors.white,
 }))``

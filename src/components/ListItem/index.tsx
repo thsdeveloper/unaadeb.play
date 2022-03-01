@@ -1,4 +1,5 @@
 import React from 'react'
+import { StyleProp, ViewStyle } from 'react-native'
 import { List } from 'react-native-paper'
 
 import * as S from './styles'
@@ -14,6 +15,7 @@ interface IListItemProps {
   description?: TextProps
   customDescription?: React.ReactNode
   customTitle?: React.ReactNode
+  style?: StyleProp<ViewStyle>
   left?: (props: {
     color: string
     style: { marginLeft: number; marginRight: number; marginVertical?: number }
@@ -30,6 +32,7 @@ export const ListItem: React.FC<IListItemProps> = ({
   description,
   customTitle,
   customDescription,
+  style,
   left,
   right,
   onPress,
@@ -53,6 +56,7 @@ export const ListItem: React.FC<IListItemProps> = ({
       left={left}
       right={right}
       onPress={onPress}
+      style={style}
     />
   )
 }

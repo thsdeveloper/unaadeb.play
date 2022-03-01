@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useCallback } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import { StatusBar, Platform } from 'react-native'
 import { Appbar } from 'react-native-paper'
-import { FlatList } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 
@@ -61,7 +61,8 @@ export const AppPage: React.FC<IAppPageProps> = ({
   const theme = useTheme()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
 
-  const statusBarHeight = getStatusBarHeight()
+  const statusBarHeight =
+    Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight()
 
   useEffect(() => {
     if (bottomSheet && bottomSheet?.visible && bottomSheetModalRef?.current) {

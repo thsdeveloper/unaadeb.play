@@ -78,7 +78,7 @@ const Login: React.FC = ({ navigation }: any) => {
       <S.H1 fontWeight='bold' size={35}>
         Junte-se a milhares de adolescentes com propósitos!
       </S.H1>
-      <S.P fontWeight='400' size={16}>
+      <S.P fontWeight='400' size={18}>
         Entre agora com o login nas redes sociais ou cadastre-se com e-mail e
         senha.
       </S.P>
@@ -90,6 +90,7 @@ const Login: React.FC = ({ navigation }: any) => {
               mode='contained'
               onPress={handleSignIn}
               icon={{ name: 'google', size: 30 }}
+              textSize={12}
             />
 
             <Button
@@ -97,6 +98,7 @@ const Login: React.FC = ({ navigation }: any) => {
               mode='text'
               onPress={alternateLoginHandler}
               color={theme.colors.primary}
+              textSize={12}
             />
           </S.ContainerButtons>
           <S.ContainerButtons style={{ marginTop: 0 }}>
@@ -105,6 +107,7 @@ const Login: React.FC = ({ navigation }: any) => {
               mode='text'
               onPress={handleSignUp}
               color={theme.colors.white}
+              textSize={12}
             />
           </S.ContainerButtons>
         </>
@@ -146,6 +149,7 @@ const Login: React.FC = ({ navigation }: any) => {
               mode='text'
               onPress={handleSignInForm}
               color={theme.colors.primary}
+              textSize={12}
             />
           </S.ViewSubmitButton>
           <S.ContainerButtons style={{ marginTop: 0 }}>
@@ -154,6 +158,7 @@ const Login: React.FC = ({ navigation }: any) => {
               mode='text'
               onPress={alternateLoginHandler}
               color={theme.colors.white}
+              textSize={12}
             />
           </S.ContainerButtons>
         </>

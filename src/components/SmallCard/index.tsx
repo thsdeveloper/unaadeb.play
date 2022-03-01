@@ -29,7 +29,7 @@ export const SmallCard: React.FC<ICardDataProps> = ({
     <S.Button key={index} onPress={item?.onPress}>
       <S.Overlay fit={fit}>
         <S.CardImage source={item?.image} />
-        <S.CardTitle size={14} fontWeight='bold'>
+        <S.CardTitle size={16} fontWeight='bold'>
           {item?.title}
         </S.CardTitle>
       </S.Overlay>
@@ -44,7 +44,7 @@ export const SmallCard: React.FC<ICardDataProps> = ({
             <S.Button key={index} onPress={item?.onPress}>
               <S.Overlay fit={fit}>
                 <S.CardImage source={item?.image} />
-                <S.CardTitle size={14} fontWeight='bold'>
+                <S.CardTitle size={18} fontWeight='bold'>
                   {item?.title}
                 </S.CardTitle>
               </S.Overlay>

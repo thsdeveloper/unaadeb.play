@@ -49,7 +49,7 @@ const Agenda: React.FC<IProps> = ({ navigation }): JSX.Element => {
       <>
         <ListItem
           key={index}
-          title={{ text: item.title, size: 18 }}
+          title={{ text: item.title, size: 22 }}
           customDescription={() => (
             <S.descriptionView>
               <S.DescriptionText>{`Local: ${item.address}`}</S.DescriptionText>

@@ -27,7 +27,7 @@ export const ButtonRounded = styled.TouchableOpacity`
   flex-direction: row;
 `
 export const ButtonRoundedText = styled(Text).attrs({
-  size: 14,
+  size: 18,
   fontWeight: 'normal',
 })``
 

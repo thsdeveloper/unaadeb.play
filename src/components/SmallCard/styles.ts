@@ -25,7 +25,7 @@ export const Overlay = styled(LinearGradient).attrs({
   border: 1px solid #243189;
   border-radius: 8px;
   padding: 20px 18px;
-  min-height: ${heightPixel(150)}px;
+  min-height: ${heightPixel(160)}px;
 `
 
 export const CardTitle = styled(Text)`

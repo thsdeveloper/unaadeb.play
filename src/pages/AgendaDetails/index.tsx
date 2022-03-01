@@ -160,9 +160,10 @@ const AgendaDetails: React.FC<IProps> = ({
                   text={`${
                     !subscribeId ? 'Confirmar presença' : 'Presença confirmada'
                   }`}
-                  icon={!!subscribeId ? { name: 'check', size: 20 } : {}}
+                  icon={!!subscribeId ? { name: 'check', size: 24 } : {}}
                   loading={isSubscribing}
                   color={!!subscribeId ? colors.darkGreen : colors.secondary}
+                  textSize={20}
                 />
               </S.ButtonRoundedView>
               {data?.longDescription && (
@@ -178,6 +179,7 @@ const AgendaDetails: React.FC<IProps> = ({
                       mode='contained'
                       icon={{ name: 'enviroment', size: 30 }}
                       onPress={openMap}
+                      textSize={12}
                     />
                   </S.GeolocationButtonView>
                 )}

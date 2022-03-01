@@ -161,6 +161,7 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
         sector,
         parentName: formFields?.customer?.parentName ?? '',
         parentCPF: formFields?.customer?.parentCPF ?? '',
+        photo: '',
       })
       .then(() => {
         navigation.navigate('Login')
@@ -384,14 +385,14 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
             />
             <S.HeadText
               fontWeight='500'
-              size={15}
+              size={18}
               align='left'
               style={{ paddingRight: 60 }}
             >
               Li e concordo com os Termos e a{' '}
               <S.HeadText
                 fontWeight='bold'
-                size={16}
+                size={18}
                 style={{ textDecorationLine: 'underline' }}
               >
                 Política de Privacidade
@@ -407,6 +408,7 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
               onPress={onSubmit}
               style={{ width: '100%' }}
               disabled={!isSwitchOn}
+              textSize={12}
             />
           </S.SubmitButtonView>
         </S.FormContainer>

@@ -49,7 +49,7 @@ const Leadership: React.FC<IProps> = ({ navigation }): JSX.Element => {
         {item.items.map((item, index) => (
           <ListItem
             key={index}
-            title={{ text: item.name, size: 18 }}
+            title={{ text: item.name, size: 22 }}
             customDescription={() => (
               <S.descriptionView>
                 <TouchableOpacity
