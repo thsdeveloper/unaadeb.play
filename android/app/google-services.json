@@ -1,57 +1,34 @@
 {
   "project_info": {
-    "project_number": "207074566517",
-    "project_id": "unaadeb-a6c93",
-    "storage_bucket": "unaadeb-a6c93.appspot.com"
+    "project_number": "1094530341256",
+    "project_id": "unaadebplayprod",
+    "storage_bucket": "unaadebplayprod.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:207074566517:android:8794f1293a0285105f333c",
+        "mobilesdk_app_id": "1:1094530341256:android:5adfd7ab0e35c13a28423d",
         "android_client_info": {
           "package_name": "com.unaadebplay"
         }
       },
       "oauth_client": [
         {
-          "client_id": "207074566517-csv01diptfbvb84kovatsps4v2inph8g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.unaadebplay",
-            "certificate_hash": "98df62ce648520b052f050f3602bb3bc43975fc6"
-          }
-        },
-        {
-          "client_id": "207074566517-qr2mb31v23o8b36er3s72jh41bv48tst.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.unaadebplay",
-            "certificate_hash": "4dea070122dd978c73ebc9815b4937ab864d09ea"
-          }
-        },
-        {
-          "client_id": "207074566517-8md2a4phn7bqruda9k10qnq50g6dje2g.apps.googleusercontent.com",
+          "client_id": "1094530341256-vsfdk1k4sggnc9sqjd2r4rmdvel8ca50.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDaQRO93Wk5jXYWjacYjbMOhW3LEODMhqg"
+          "current_key": "AIzaSyCpcGK0W20Gekab5-c9vTjv_QN9JkHZktQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "207074566517-8md2a4phn7bqruda9k10qnq50g6dje2g.apps.googleusercontent.com",
+              "client_id": "1094530341256-vsfdk1k4sggnc9sqjd2r4rmdvel8ca50.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "207074566517-ct55jkd9ld0bvqbp56jigi60ccosjja0.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.UnaadebPlay"
-              }
             }
           ]
         }

@@ -18,6 +18,7 @@ interface AuthContextData {
   signIn(): Promise<void>
   signInForm(email: string, pass: string): Promise<void>
   signOut(): void
+  updateUserState: () => void
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
@@ -59,6 +60,14 @@ const AuthProvider: React.FC = ({ children }) => {
             JSON.stringify(sanitizeData),
           )
         } else {
+          const customerData: auth.CustomerProps = {
+            name: response.user.name,
+            email: response.user.email,
+            photo: response.user.photo || '',
+            userType: 'google',
+          }
+          await auth.addCustomer(customerData)
+
           setUser(response?.user)
 
           await AsyncStorage.setItem(
@@ -105,6 +114,21 @@ const AuthProvider: React.FC = ({ children }) => {
     }
   }
 
+  async function updateUserState() {
+    if (user?.email) {
+      try {
+        const response: any = await auth.getUserInfo(user?.email)
+        if (response) {
+          setUser(response?.user)
+          await AsyncStorage.clear()
+          await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(user))
+        }
+      } catch (error) {
+        return
+      }
+    }
+  }
+
   async function signOut() {
     await AsyncStorage.clear()
     setUser(null)
@@ -112,7 +136,15 @@ const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ signed: !!user, user, loading, signIn, signOut, signInForm }}
+      value={{
+        signed: !!user,
+        user,
+        loading,
+        signIn,
+        signOut,
+        signInForm,
+        updateUserState,
+      }}
     >
       {children}
     </AuthContext.Provider>

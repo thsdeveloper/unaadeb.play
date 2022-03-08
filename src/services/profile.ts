@@ -1,10 +1,10 @@
 import firestore from '@react-native-firebase/firestore'
 
-import { Response } from './auth'
+import { CustomerProps } from './auth'
 
 export function updateProfile(
   email: string,
-  user: Pick<Response, 'user'>,
+  user: CustomerProps,
 ): Promise<boolean> {
   return new Promise((resolve, reject) => {
     firestore()

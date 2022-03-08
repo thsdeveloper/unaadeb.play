@@ -25,7 +25,7 @@ export const SectorViewItem = styled.View`
 `
 
 export const SectorViewItemText = styled(Text).attrs({
-  size: 16,
+  size: 20,
   fontWeight: '500',
 })`
   color: ${({ theme }: any) => theme.colors.blueLight};

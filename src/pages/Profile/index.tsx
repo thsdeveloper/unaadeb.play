@@ -1,10 +1,24 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useContext,
+} from 'react'
 import { useTheme } from 'styled-components/native'
 import { useBottomSheetModal } from '@gorhom/bottom-sheet'
+import {
+  Paragraph,
+  Dialog,
+  Portal,
+  Button as NPButton,
+} from 'react-native-paper'
 
 import { AppPage, Avatar, Button, BottomSheetList } from '~/components'
 import { useAuth } from '~/contexts/auth'
-import { User } from '~/services/auth'
+import { User, updatePassword } from '~/services/auth'
+import { updateProfile } from '~/services/profile'
+import AlertContext from '~/contexts/alert'
 
 import * as S from './styles'
 
@@ -18,19 +32,18 @@ interface PickedFieldProps {
   [key: string]: string
 }
 
-interface UserAuth {
-  password?: string
-  confirmPassword?: string
-}
-
 const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
   const theme = useTheme()
-  const { user } = useAuth()
+  const { user, updateUserState } = useAuth()
   const { dismiss } = useBottomSheetModal()
+  const alert = useContext(AlertContext)
 
-  const [userProfile, setUserProfile] = useState<(User & UserAuth) | null>(null)
+  const [userProfile, setUserProfile] = useState<User | null>(null)
   const [fieldsSelected, setFieldsSelected] = useState<PickedFieldProps>({})
-  const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
+  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [dialogVisible, setDialogVisible] = useState<boolean>(false)
+  const [passDialogVisible, setPassDialogVisible] = useState<boolean>(false)
 
   useEffect(() => {
     user && setUserProfile(user)
@@ -45,9 +58,65 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
     })
   }
 
-  const handlePressSave = () => {
-    console.log(fieldsSelected)
+  const validateFields = (): boolean => {
+    if (
+      (fieldsSelected.hasOwnProperty('name') && fieldsSelected?.name === '') ||
+      (fieldsSelected.hasOwnProperty('phone') &&
+        fieldsSelected?.phone === '') ||
+      (fieldsSelected.hasOwnProperty('birthDate') &&
+        fieldsSelected?.birthDate === '')
+    ) {
+      return false
+    }
+    return true
   }
+
+  const handlePressSave = useCallback(async () => {
+    try {
+      hideDialog()
+      setIsLoading(true)
+      const validate = validateFields()
+      if (!validate) {
+        throw new Error('Preencha todos os campos obrigatórios')
+      }
+      if (fieldsSelected && userProfile?.email) {
+        await updateProfile(userProfile?.email, fieldsSelected)
+        alert.success('Perfil atualizado com sucesso!')
+        await afterChange()
+        setFieldsSelected({})
+        return
+      }
+      throw new Error('Não foi possível atualizar o perfil')
+    } catch (_e: any) {
+      const errorMsg =
+        _e.message ||
+        'Ocorreu uma falha ao atualizar o perfil, por favor tente novamente.'
+      alert.error(errorMsg)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [fieldsSelected, userProfile?.email])
+
+  const updatePasswordUser = useCallback(async () => {
+    try {
+      hidePassDialog()
+      setIsLoading(true)
+      if (userProfile?.email) {
+        await updatePassword(userProfile?.email)
+        alert.success(
+          'Um email foi enviado para você com as instruções de recuperação de senha',
+        )
+        return
+      }
+      throw new Error('Error')
+    } catch (_e: any) {
+      alert.error('Falha ao atualizar a senha, por favor tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  const afterChange = async () => await updateUserState()
 
   const snapPoints = useMemo(() => ['50%'], [])
 
@@ -60,9 +129,52 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
   }, [])
 
   const RenderLabel = ({ title }: { title: string }): JSX.Element => (
-    <S.LabelView>
-      <S.InputLabel size={14}>{title}</S.InputLabel>
-    </S.LabelView>
+    <S.InputLabel size={14}>{title}</S.InputLabel>
+  )
+
+  const hideDialog = () => setDialogVisible(false)
+
+  const renderDialogContent = () => (
+    <Portal>
+      <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+        <Dialog.Title>Confirmação dos dados</Dialog.Title>
+        <Dialog.Content>
+          <Paragraph>Confirma a atualização dos dados em seu perfil?</Paragraph>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <NPButton mode='text' onPress={hideDialog}>
+            Cancelar
+          </NPButton>
+          <NPButton mode='text' onPress={handlePressSave}>
+            OK
+          </NPButton>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
+  )
+
+  const hidePassDialog = () => setPassDialogVisible(false)
+
+  const renderDialogResetPassword = () => (
+    <Portal>
+      <Dialog visible={passDialogVisible} onDismiss={hidePassDialog}>
+        <Dialog.Title>Redefinição de senha</Dialog.Title>
+        <Dialog.Content>
+          <Paragraph>
+            Uma mensagem com instruções de redefinição senha será será enviada
+            ao seu email de cadastro no UnaadebPlay
+          </Paragraph>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <NPButton mode='text' onPress={hidePassDialog}>
+            Cancelar
+          </NPButton>
+          <NPButton mode='text' onPress={updatePasswordUser}>
+            OK entendi!
+          </NPButton>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
   )
 
   return (
@@ -71,6 +183,7 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
       scroll
       safeArea
       keyboardAvoidingView
+      loading={isLoading}
       header={{
         title: 'Perfil',
         onBackPress: () => navigation.pop(),
@@ -109,7 +222,7 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
           <S.ButtonEditImage text='Editar imagem' />
         </S.AvatarView>
         <S.Input
-          label={<RenderLabel title={'Email'} />}
+          label={'Email'}
           valueIsControlled
           valueControlled={userProfile?.email}
           rightIconColor={theme.colors.secondary}
@@ -120,9 +233,7 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
           placeholder='Nome'
           rightIcon={!fieldsSelected?.name ? 'pencil' : null}
           valueIsControlled
-          onChangeText={(e: any) =>
-            fieldsSelected?.name && setValueFields('name', e)
-          }
+          onChangeText={(e: any) => setValueFields('name', e)}
           valueControlled={
             !fieldsSelected?.name ? userProfile?.name : fieldsSelected.name
           }
@@ -146,6 +257,7 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
           }
           mode={fieldsSelected.hasOwnProperty('phone') ? 'outlined' : 'flat'}
           disabled={!fieldsSelected.hasOwnProperty('phone')}
+          onChangeText={(e: any) => setValueFields('phone', e)}
         />
         <S.Input
           label={<RenderLabel title={'Data de Nascimento'} />}
@@ -165,6 +277,7 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
             fieldsSelected.hasOwnProperty('birthDate') ? 'outlined' : 'flat'
           }
           disabled={!fieldsSelected.hasOwnProperty('birthDate')}
+          onChangeText={(e: any) => setValueFields('birthDate', e)}
         />
         <S.Input
           label={<RenderLabel title={'Setor'} />}
@@ -189,31 +302,11 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
         />
         {userProfile?.userType === 'firebase' && (
           <>
-            <S.Input
-              label={<RenderLabel title={'Senha'} />}
-              valueIsControlled
-              rightIcon='pencil'
-              type='password'
-              autoCapitalize='none'
-              valueControlled={fieldsSelected.password}
-              rightIconPress={() => setValueFields('password', '')}
-              rightIconColor={theme.colors.secondary}
-              mode={
-                fieldsSelected.hasOwnProperty('password') ? 'outlined' : 'flat'
-              }
-              disabled={!fieldsSelected.hasOwnProperty('password')}
-              onChangeText={(e: any) => setValueFields('password', e)}
-            />
-            <S.Input
-              label={<RenderLabel title={'Confirmar Senha'} />}
-              valueIsControlled
-              type='password'
-              autoCapitalize='none'
-              rightIconColor={theme.colors.secondary}
-              mode={
-                fieldsSelected.hasOwnProperty('password') ? 'outlined' : 'flat'
-              }
-              disabled={!fieldsSelected.hasOwnProperty('password')}
+            <Button
+              text='Redefinir Senha'
+              mode='outlined'
+              style={{ width: '100%' }}
+              onPress={() => setPassDialogVisible(true)}
             />
           </>
         )}
@@ -223,10 +316,12 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
             text='Atualizar perfil'
             mode='contained'
             style={{ width: '100%' }}
-            onPress={handlePressSave}
+            onPress={() => setDialogVisible(true)}
             disabled={!Object.keys(fieldsSelected).length}
           />
         </S.SubmitButtonView>
+        {renderDialogContent()}
+        {renderDialogResetPassword()}
       </S.Container>
     </AppPage>
   )

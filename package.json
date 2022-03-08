@@ -5,6 +5,8 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios --simulator='iPhone 11 Pro Max'",
+    "ios:prod": "ENVFILE=.env.prod react-native run-ios --simulator='iPhone 11 Pro Max' --configuration=release",
+    "android:prod": "ENVFILE=.env.prod react-native run-android",
     "g": "scaffdog generate",
     "commit": "git-cz",
     "start": "react-native start",

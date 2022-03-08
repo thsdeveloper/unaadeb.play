@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 
 export interface User {
+  id?: string
   name: string
   givenName: string
   email: string
@@ -14,11 +15,24 @@ export interface User {
   parentCPF?: string
   parentName?: string
   userType?: 'google' | 'firebase'
+  authProvider?: 'google' | 'local'
 }
 
 interface Response {
   user: User
   idToken?: string
+}
+
+export interface CustomerProps {
+  name?: string
+  email?: string
+  phone?: string
+  birthDate?: string
+  parentName?: string
+  parentCPF?: string
+  sector?: string
+  userType?: 'google' | 'firebase'
+  photo?: string
 }
 
 export function signIn(): Promise<
@@ -42,6 +56,7 @@ export function signIn(): Promise<
                     givenName: authInfo?.user?.givenName,
                     photo: authInfo?.user?.photo,
                     userType: 'google',
+                    id: authInfo?.user?.id,
                   },
                 })
               } else {
@@ -52,7 +67,6 @@ export function signIn(): Promise<
               }
             })
             .catch((e) => {
-              console.log(e)
               reject({ warning: 'Login cancelado' })
             })
         }
@@ -107,6 +121,7 @@ export function getUserInfo(email: string): Promise<Response | null> {
             phone,
             photo,
             sector,
+            userType,
           } = doc.data() || {}
           resolve({
             user: {
@@ -119,7 +134,7 @@ export function getUserInfo(email: string): Promise<Response | null> {
               parentName,
               phone,
               sector,
-              userType: 'firebase',
+              userType,
             },
           })
         } else {
@@ -128,6 +143,37 @@ export function getUserInfo(email: string): Promise<Response | null> {
       })
       .catch((e) => {
         resolve(null)
+      })
+  })
+}
+
+export function addCustomer(customer: CustomerProps): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    if (!customer?.userType) {
+      customer.userType = 'firebase'
+    }
+    firestore()
+      .collection('customers')
+      .doc(customer.email)
+      .set(customer)
+      .then(() => {
+        resolve(true)
+      })
+      .catch((_error) => {
+        reject()
+      })
+  })
+}
+
+export function updatePassword(email: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        resolve(true)
+      })
+      .catch((_e) => {
+        reject()
       })
   })
 }

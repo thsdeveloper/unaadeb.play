@@ -23,10 +23,12 @@ export const Input = styled(TextInput).attrs(({ theme, mode }: any) => ({
   mode: mode || 'flat',
 }))<InputMode>`
   font-size: 16px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
+  padding-top: 10px;
   background-color: ${({ mode, theme }: InputMode | any) =>
     mode === 'flat' ? 'transparent' : theme.colors.light};
-  height: 40px;
+  height: 45px;
+  line-height: 20px;
 `
 export const AvatarView = styled.View`
   align-items: center;
@@ -38,12 +40,11 @@ export const ButtonEditImage = styled(Button).attrs({
 `
 
 export const LabelView = styled.View`
-  padding-left: 10px;
-  padding-bottom: 5px;
+  position: relative;
 `
 
 export const InputLabel = styled(Text).attrs(({ theme }: any) => ({
-  size: 16,
+  size: 18,
   customColor: theme.colors.secondary,
 }))``
 
@@ -53,3 +54,11 @@ export const SubmitButtonView = styled.View`
   align-items: center;
   margin-bottom: 20px;
 `
+export const PassRecoveryButtonView = styled.View`
+  margin-top: 10px;
+  align-items: center;
+`
+
+export const ButtonHideDialog = styled(Button).attrs({
+  mode: 'text',
+})``
