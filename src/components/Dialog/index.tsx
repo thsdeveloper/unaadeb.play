@@ -34,7 +34,6 @@ export const Dialog: React.FC<IDialogProps> = ({
 
   useEffect(() => {
     setModalVisible(visible)
-    console.log('visible', visible)
   }, [visible])
 
   return (

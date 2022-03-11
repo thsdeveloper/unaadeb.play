@@ -16,6 +16,11 @@ import { uploadPicture } from '~/services/storage'
 
 import * as S from '../styles'
 
+interface PhotoFileProps {
+  uri: string
+  name?: string
+}
+
 interface PictureModalProps {
   onDismiss?: () => void
   onPictureSelected: (picture: string) => void
@@ -25,32 +30,35 @@ export const Picture: React.FC<PictureModalProps> = ({
   onDismiss,
   onPictureSelected,
 }) => {
-  const { image, pickSingleWithCamera, cameraError, imageUri } =
+  const { image, pickSingleWithCamera, cameraError, cameraFile } =
     usePhotoCamera()
-  const { photoLibrary, pickSingle, photoLibUri, pickImageError, imageName } =
+  const { photoLibrary, pickSingle, pickImageError, photoLibFile } =
     usePhotoPicker()
   const theme = useTheme()
   const alert = useContext(AlertContext)
   const { user, updateUserState } = useAuth()
 
   const [avatar, setAvatar] = useState<ImageSourcePropType>()
-  const [imageUrl, setImageUrl] = useState<string>()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [photo, setPhoto] = useState<PhotoFileProps>()
 
   const clearImage = () => setAvatar(undefined)
 
   const handleUpload = useCallback(async () => {
     try {
+      if (!photo)
+        return alert.warning(
+          'Falha ao selecionar foto, por favor selecione outra',
+        )
       setLoading(true)
-      if (!imageUrl || !imageName) return
       const timestamp = new Date().getTime()
-      const res = await uploadPicture(imageUrl, `${timestamp}_${imageName}`)
+      const res = await uploadPicture(photo.uri, `${timestamp}_${photo.name}`)
       updateImageProfile(res)
     } catch (error) {
       alert.error('Erro ao salvar imagem')
       setLoading(false)
     }
-  }, [imageUrl, imageName])
+  }, [photo])
 
   const updateImageProfile = useCallback(
     async (image) => {
@@ -88,22 +96,22 @@ export const Picture: React.FC<PictureModalProps> = ({
   }, [cameraError, pickImageError])
 
   useEffect(() => {
-    if (image && imageUri) {
+    if (image && cameraFile) {
       setAvatar(image)
-      setImageUrl(imageUri)
+      setPhoto(cameraFile)
     }
-  }, [image, imageUri])
+  }, [image, cameraFile])
 
   useEffect(() => {
-    if (photoLibrary && photoLibUri) {
-      console.log('photoLibUri', photoLibUri)
+    if (photoLibrary && photoLibFile) {
+      console.log('photoLibUri', photoLibFile)
       setAvatar(photoLibrary)
-      setImageUrl(photoLibUri)
+      setPhoto(photoLibFile)
     }
-  }, [photoLibrary, photoLibUri])
+  }, [photoLibrary, photoLibFile])
 
   return (
-    <AppPage safeArea scroll loading={loading}>
+    <AppPage safeArea scroll={!avatar ? false : true} loading={loading}>
       <S.QuitButton onPress={() => onDismiss && onDismiss()}>
         <Icon name='close' size={35} color={theme.colors.light} />
       </S.QuitButton>
@@ -112,18 +120,18 @@ export const Picture: React.FC<PictureModalProps> = ({
           flex: 1,
           justifyContent: 'center',
           flexDirection: 'column',
-          alignItems: 'center',
-          marginTop: heightPixel(120),
         }}
       >
         {!avatar ? (
-          <Card>
+          <Card mode='outlined'>
             <Card.Content>
               <>
-                <Title>Selecione como deseja alterar sua foto:</Title>
+                <Title style={{ lineHeight: 22 }}>
+                  Selecione como deseja alterar sua foto:
+                </Title>
                 <View style={{ marginTop: 30 }}>
                   <S.ButtonPicture
-                    text='TIRAR FOTO'
+                    text='USAR CAMERA'
                     onPress={() => pickSingleWithCamera(true)}
                     icon={{
                       name: 'camerao',
@@ -147,14 +155,21 @@ export const Picture: React.FC<PictureModalProps> = ({
             </Card.Content>
           </Card>
         ) : (
-          <View>
+          <View
+            style={{
+              flex: 1,
+              marginTop: 100,
+              alignItems: 'center',
+            }}
+          >
             <Avatar.Image source={avatar} type='circle' size={250} />
-            <View style={{ marginTop: 30 }}>
+            <View style={{ marginTop: 30, flex: 1 }}>
               <Button
                 text='SALVAR'
                 mode='contained'
                 textSize={12}
                 onPress={handleUpload}
+                style={{ width: '100%' }}
               />
             </View>
             <View style={{ marginTop: 20 }}>
@@ -163,6 +178,7 @@ export const Picture: React.FC<PictureModalProps> = ({
                 mode='text'
                 textSize={12}
                 onPress={clearImage}
+                style={{ width: '100%' }}
               />
             </View>
           </View>

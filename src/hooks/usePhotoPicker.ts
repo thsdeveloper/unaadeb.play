@@ -8,11 +8,15 @@ interface ImageProps {
   mime: string
 }
 
+interface PhotoFileProps {
+  uri: string
+  name?: string
+}
+
 export const usePhotoPicker = () => {
   const [photoLibrary, setPhotoLibrary] = useState<ImageProps>()
-  const [photoLibUri, setPhotoLibUri] = useState<string>()
   const [pickImageError, setPickImageError] = useState<string>()
-  const [imageName, setImageName] = useState<string>()
+  const [photoLibFile, setPhotoLibFile] = useState<PhotoFileProps>()
 
   const pickSingle = useCallback((cropit: boolean, circular = false) => {
     ImagePicker.openPicker({
@@ -38,8 +42,7 @@ export const usePhotoPicker = () => {
           height: image.height,
           mime: image.mime,
         })
-        setPhotoLibUri(image.path)
-        setImageName(image.filename)
+        setPhotoLibFile({ uri: image.path, name: image?.filename })
       })
       .catch((e) => {
         if (e.code === 'E_NO_IMAGE_DATA_FOUND') {
@@ -54,5 +57,10 @@ export const usePhotoPicker = () => {
       })
   }, [])
 
-  return { photoLibrary, pickSingle, photoLibUri, pickImageError, imageName }
+  return {
+    photoLibrary,
+    pickSingle,
+    pickImageError,
+    photoLibFile,
+  }
 }

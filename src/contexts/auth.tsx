@@ -50,7 +50,7 @@ const AuthProvider: React.FC = ({ children }) => {
         if (getUserInfo) {
           const sanitizeData = {
             ...getUserInfo.user,
-            photo: getUserInfo.photo || response.user.photo,
+            photo: getUserInfo?.user.photo || response.user.photo,
             userType: response.user.userType,
           }
           setUser(sanitizeData)
