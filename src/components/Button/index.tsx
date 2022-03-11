@@ -10,6 +10,8 @@ interface IconProps {
   name?: string
   size?: number
   color?: string
+  bordered?: boolean
+  borderColor?: string
 }
 
 export interface IButtonProps {
@@ -56,13 +58,13 @@ export const Button: React.FC<IButtonProps> = ({
   }
 
   const renderIcons = () => {
-    const { size, name, color } = icon || {}
+    const { size, name, color, bordered = true, borderColor } = icon || {}
     return (
       name && (
-        <S.ViewIcon>
+        <S.ViewIcon bordered={bordered} borderColor={borderColor}>
           <Icon
             name={name}
-            size={fontPixel(size) || fontPixel(16)}
+            size={(size && fontPixel(size)) || fontPixel(16)}
             color={color || colors.white}
           />
         </S.ViewIcon>
@@ -76,7 +78,7 @@ export const Button: React.FC<IButtonProps> = ({
         {icon?.name && !loading && (
           <Icon
             name={icon?.name}
-            size={fontPixel(icon?.size) || fontPixel(16)}
+            size={(icon?.size && fontPixel(icon?.size)) || fontPixel(16)}
             color={icon?.color || colors.white}
           />
         )}

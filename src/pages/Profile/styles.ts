@@ -35,6 +35,7 @@ export const AvatarView = styled.View`
 `
 export const ButtonEditImage = styled(Button).attrs({
   mode: 'text',
+  textSize: 12,
 })`
   width: 240px;
 `
@@ -62,3 +63,26 @@ export const PassRecoveryButtonView = styled.View`
 export const ButtonHideDialog = styled(Button).attrs({
   mode: 'text',
 })``
+
+export const QuitButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  z-index: 1;
+`
+
+export const ViewRadio = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
+
+export const ButtonPicture = styled(Button).attrs({
+  mode: 'outlined',
+  textSize: 12,
+  style: { width: '100%' },
+})`
+  border-radius: 20px;
+  border-width: 1px;
+  border-color: ${({ theme }: any) => theme.colors.secondary};
+  margin-bottom: 10px;
+`

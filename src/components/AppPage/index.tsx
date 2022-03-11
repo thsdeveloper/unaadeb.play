@@ -1,17 +1,15 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import { StatusBar, Platform } from 'react-native'
+import { StatusBar, Platform, StyleSheet } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { useTheme } from 'styled-components/native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
+import { BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
 
-import { Snackbar, CustomBackdrop } from '~/components'
+import { Snackbar, CustomBackdrop, Modal, Dialog } from '~/components'
+import { ModalProps } from '~/components/Modal'
 import { IButtonProps } from '~/components/Button'
 import { ISnackbarProps } from '~/components/Snackbar'
-import {
-  BottomSheetModal,
-  BottomSheetProps,
-  BottomSheetBackdrop,
-} from '@gorhom/bottom-sheet'
+import { IDialogProps } from '~/components/Dialog'
 
 import * as S from './styles'
 
@@ -43,6 +41,8 @@ interface IAppPageProps {
   snackbar?: ISnackbarProps
   bottomSheet?: BottomSheetItemProps
   footerButton?: FooterButtonProps
+  modal?: ModalProps
+  dialog?: IDialogProps
 }
 
 export const AppPage: React.FC<IAppPageProps> = ({
@@ -57,6 +57,8 @@ export const AppPage: React.FC<IAppPageProps> = ({
   snackbar,
   bottomSheet,
   footerButton,
+  modal,
+  dialog,
 }) => {
   const theme = useTheme()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -71,7 +73,7 @@ export const AppPage: React.FC<IAppPageProps> = ({
   }, [bottomSheet, bottomSheetModalRef?.current])
 
   const renderLoading = () => (
-    <S.LoadingContainer>
+    <S.LoadingContainer style={StyleSheet.absoluteFill}>
       <S.LoadingView>
         <S.Loading />
       </S.LoadingView>
@@ -160,6 +162,8 @@ export const AppPage: React.FC<IAppPageProps> = ({
       <S.KeyboardView>
         {renderHeader}
         {renderBodyContent}
+        {modal && <Modal {...modal} />}
+        {dialog && <Dialog {...dialog} />}
         {renderBottomSheet()}
         {loading && renderLoading()}
       </S.KeyboardView>
@@ -171,6 +175,8 @@ export const AppPage: React.FC<IAppPageProps> = ({
       {renderHeader}
       {renderBodyContent}
       {snackbar && <Snackbar {...snackbar} />}
+      {modal && <Modal {...modal} />}
+      {dialog && <Dialog {...dialog} />}
       {renderBottomSheet()}
       {loading && renderLoading()}
     </>

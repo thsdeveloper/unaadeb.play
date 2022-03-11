@@ -4,15 +4,24 @@ import { Text } from '~/components'
 
 interface ColorProps {
   color: string
+  borderColor?: string
+}
+
+interface IcoBorderProps {
+  bordered: boolean
 }
 
 export const Button = styled(NPButton)``
 
-export const ViewIcon = styled.View`
+export const ViewIcon = styled.View<
+  IcoBorderProps & Pick<ColorProps, 'borderColor'>
+>`
   flex: 1;
   align-self: center;
-  border-right-color: #991f36;
-  border-right-width: 1px;
+  ${({ bordered, borderColor }: IcoBorderProps & ColorProps) =>
+    bordered &&
+    (!borderColor ? `border-right-color: #991f36;` : `${borderColor};`)}
+  ${({ bordered }: IcoBorderProps) => bordered && `border-right-width: 1px;`}
   justify-content: center;
   padding-left: 10px;
   padding-right: 20px;

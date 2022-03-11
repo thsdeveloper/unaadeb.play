@@ -52,5 +52,7 @@ export const lightTheme: DefaultTheme = {
     black: '#000',
     green: '#32BD50',
     orange: '#FFCA28',
+    darkGreen: '#237d62',
+    lightRed: '#f7c5c1',
   },
 }

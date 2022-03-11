@@ -4,25 +4,30 @@ import React, {
   useCallback,
   useMemo,
   useContext,
+  ReactNode,
 } from 'react'
 import { useTheme } from 'styled-components/native'
 import { useBottomSheetModal } from '@gorhom/bottom-sheet'
-import {
-  Paragraph,
-  Dialog,
-  Portal,
-  Button as NPButton,
-} from 'react-native-paper'
+import { ImageSourcePropType } from 'react-native'
 
 import { AppPage, Avatar, Button, BottomSheetList } from '~/components'
 import { useAuth } from '~/contexts/auth'
 import { User, updatePassword } from '~/services/auth'
 import { updateProfile } from '~/services/profile'
 import AlertContext from '~/contexts/alert'
+import { IDialogProps } from '~/components/Dialog'
 
+import { Picture } from './util/picture'
 import * as S from './styles'
 
 const noImage = require('../../../assets/images/no-photo.png')
+
+interface Dialogs {
+  confirmUpdate: Partial<IDialogProps>
+  resetPassword: Partial<IDialogProps>
+}
+
+type DialogTypes = keyof Dialogs
 
 interface IProps {
   navigation: any
@@ -42,11 +47,16 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
   const [fieldsSelected, setFieldsSelected] = useState<PickedFieldProps>({})
   const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [dialogVisible, setDialogVisible] = useState<boolean>(false)
-  const [passDialogVisible, setPassDialogVisible] = useState<boolean>(false)
+  const [dialogType, setDialogType] = useState<DialogTypes | null>(null)
+  //const [hasPermission, setHasPermission] = useState(false)
+  const [showModalCamera, setShowModalCamera] = useState(false)
+  const [avatar, setAvatar] = useState<
+    ImageSourcePropType | ((props: { size: number }) => ReactNode)
+  >(noImage)
 
   useEffect(() => {
     user && setUserProfile(user)
+    setAvatar(user?.photo?.length ? { uri: user?.photo } : noImage)
   }, [user])
 
   const setValueFields = (name: string, value: string) => {
@@ -99,7 +109,7 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
 
   const updatePasswordUser = useCallback(async () => {
     try {
-      hidePassDialog()
+      hideDialog()
       setIsLoading(true)
       if (userProfile?.email) {
         await updatePassword(userProfile?.email)
@@ -132,50 +142,37 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
     <S.InputLabel size={14}>{title}</S.InputLabel>
   )
 
-  const hideDialog = () => setDialogVisible(false)
+  const hideDialog = () => setDialogType(null)
 
-  const renderDialogContent = () => (
-    <Portal>
-      <Dialog visible={dialogVisible} onDismiss={hideDialog}>
-        <Dialog.Title>Confirmação dos dados</Dialog.Title>
-        <Dialog.Content>
-          <Paragraph>Confirma a atualização dos dados em seu perfil?</Paragraph>
-        </Dialog.Content>
-        <Dialog.Actions>
-          <NPButton mode='text' onPress={hideDialog}>
-            Cancelar
-          </NPButton>
-          <NPButton mode='text' onPress={handlePressSave}>
-            OK
-          </NPButton>
-        </Dialog.Actions>
-      </Dialog>
-    </Portal>
-  )
+  const dialogProps: Dialogs = {
+    confirmUpdate: {
+      title: 'Confirmação dos dados',
+      description: 'Confirma a atualização dos dados em seu perfil?',
+      onConfirm: handlePressSave,
+      onCancel: hideDialog,
+      onDismiss: hideDialog,
+    },
+    resetPassword: {
+      title: 'Redefinição de senha',
+      description:
+        'Uma mensagem com instruções de redefinição senha será será enviada ao seu email de cadastro no UnaadebPlay',
+      onConfirm: updatePasswordUser,
+      onCancel: hideDialog,
+      onDismiss: hideDialog,
+      confirmText: 'OK entendi!',
+    },
+  }
 
-  const hidePassDialog = () => setPassDialogVisible(false)
+  const toggleShowModalCamera = () => setShowModalCamera(!showModalCamera)
 
-  const renderDialogResetPassword = () => (
-    <Portal>
-      <Dialog visible={passDialogVisible} onDismiss={hidePassDialog}>
-        <Dialog.Title>Redefinição de senha</Dialog.Title>
-        <Dialog.Content>
-          <Paragraph>
-            Uma mensagem com instruções de redefinição senha será será enviada
-            ao seu email de cadastro no UnaadebPlay
-          </Paragraph>
-        </Dialog.Content>
-        <Dialog.Actions>
-          <NPButton mode='text' onPress={hidePassDialog}>
-            Cancelar
-          </NPButton>
-          <NPButton mode='text' onPress={updatePasswordUser}>
-            OK entendi!
-          </NPButton>
-        </Dialog.Actions>
-      </Dialog>
-    </Portal>
-  )
+  const handleAvatarChange = (avatar: ImageSourcePropType) => {
+    setAvatar(avatar)
+    toggleShowModalCamera()
+  }
+
+  const dialogContent = useMemo(() => {
+    return (dialogType && dialogProps[dialogType]) || {}
+  }, [dialogType])
 
   return (
     <AppPage
@@ -207,19 +204,27 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
           </>
         ),
       }}
+      dialog={{
+        visible: !!dialogType,
+        ...dialogContent,
+      }}
+      modal={{
+        visible: showModalCamera,
+        children: (
+          <Picture
+            onDismiss={toggleShowModalCamera}
+            onPictureSelected={(e) => handleAvatarChange({ uri: e })}
+          />
+        ),
+      }}
     >
       <S.Container>
         <S.AvatarView>
-          <Avatar.Image
-            source={
-              !userProfile?.photo?.length
-                ? noImage
-                : { uri: userProfile?.photo }
-            }
-            size={120}
-            type='circle'
+          <Avatar.Image source={avatar} size={120} type='circle' />
+          <S.ButtonEditImage
+            text='Editar imagem'
+            onPress={toggleShowModalCamera}
           />
-          <S.ButtonEditImage text='Editar imagem' />
         </S.AvatarView>
         <S.Input
           label={'Email'}
@@ -303,10 +308,11 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
         {userProfile?.userType === 'firebase' && (
           <>
             <Button
-              text='Redefinir Senha'
+              text='REDEFINIR SENHA'
               mode='outlined'
               style={{ width: '100%' }}
-              onPress={() => setPassDialogVisible(true)}
+              onPress={() => setDialogType('resetPassword')}
+              textSize={12}
             />
           </>
         )}
@@ -316,12 +322,11 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
             text='Atualizar perfil'
             mode='contained'
             style={{ width: '100%' }}
-            onPress={() => setDialogVisible(true)}
+            onPress={() => setDialogType('confirmUpdate')}
             disabled={!Object.keys(fieldsSelected).length}
+            textSize={12}
           />
         </S.SubmitButtonView>
-        {renderDialogContent()}
-        {renderDialogResetPassword()}
       </S.Container>
     </AppPage>
   )
