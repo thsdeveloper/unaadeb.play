@@ -32,7 +32,7 @@ export const CalendarIcon = styled(Icon).attrs(({ theme }: any) => ({
 `
 
 export const DateText = styled(Text).attrs(({ theme }: any) => ({
-  size: 13,
+  size: 16,
   fontWeight: 'normal',
   customColor: theme.colors.white,
 }))``

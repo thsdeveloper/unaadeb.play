@@ -37,8 +37,6 @@ export const SafeAreaView = styled.SafeAreaView`
 `
 
 export const LoadingContainer = styled.View`
-  width: ${width}px;
-  height: ${height}px;
   position: absolute;
   top: 0;
   z-index: 2;

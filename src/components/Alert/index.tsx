@@ -22,5 +22,11 @@ export const Alert: React.FC = (): JSX.Element => {
     }
   }, [message, type, duration, clear])
 
-  return <FlashMessage position='top' statusBarHeight={statusBarHeight} />
+  return (
+    <FlashMessage
+      position='top'
+      statusBarHeight={statusBarHeight}
+      style={{ zIndex: 100000 }}
+    />
+  )
 }

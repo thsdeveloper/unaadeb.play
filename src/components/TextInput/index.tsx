@@ -74,6 +74,7 @@ export interface ITextInputProps extends TextInputProps {
   valueIsControlled?: boolean
   valueControlled?: string
   returnKeyType?: ReturnKeyType
+  customTheme?: ReactNativePaper.Theme
 }
 
 export const TextInput: React.FC<ITextInputProps> = ({
@@ -106,6 +107,8 @@ export const TextInput: React.FC<ITextInputProps> = ({
   primaryTextInputColor,
   leftIconColor,
   returnKeyType = 'done',
+  style,
+  customTheme,
   ...props
 }): JSX.Element => {
   const theme = useTheme()
@@ -148,6 +151,7 @@ export const TextInput: React.FC<ITextInputProps> = ({
             name={rightIcon}
             color={rightIconColor}
             onPress={rightIconPress}
+            style={{ paddingTop: 8 }}
           />
         ),
       }
@@ -233,17 +237,20 @@ export const TextInput: React.FC<ITextInputProps> = ({
       text: theme.colors.black,
       placeholder: theme.colors.brown,
     },
+    ...customTheme,
   }
 
   const renderInput = useMemo(
     () => (
       <Input
         mode={mode}
-        style={{
-          backgroundColor: 'transparent',
-          height: heightPixel(40),
-          fontSize: fontPixel(14),
-        }}
+        style={[
+          {
+            height: heightPixel(40),
+            fontSize: fontPixel(14),
+          },
+          style,
+        ]}
         label={name}
         disabled={loading}
         error={hasError}

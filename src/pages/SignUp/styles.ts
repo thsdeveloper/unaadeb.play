@@ -17,6 +17,7 @@ export const Header = styled.View`
 export const HeadText = styled(Text)`
   text-align: ${({ align }: TextProps) => align || 'center'};
   color: ${({ theme }: any) => theme.colors.light};
+  line-height: 22px;
 `
 
 export const FormContainer = styled.View`
@@ -29,6 +30,8 @@ export const InputText = styled(TextInput).attrs(({ theme }: any) => ({
   },
 }))`
   font-weight: 500;
+  height: 40px;
+  font-size: 16px;
 `
 
 export const HeadFormText = styled(Text)`

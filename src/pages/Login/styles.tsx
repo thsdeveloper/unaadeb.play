@@ -34,7 +34,7 @@ export const Image = styled.Image.attrs({
 export const H1 = styled(Text)`
   text-align: center;
   padding: 0 ${pixelSizeVertical(20)}px;
-  line-height: 35px;
+  line-height: 32px;
 `
 
 export const ContainerButtons = styled.View`
@@ -44,7 +44,7 @@ export const ContainerButtons = styled.View`
 `
 
 export const P = styled(Text)`
-  line-height: 25px;
+  line-height: 23px;
   text-align: center;
   margin-top: ${pixelSizeVertical(20)}px;
   padding: 0 ${pixelSizeVertical(20)}px;
@@ -56,6 +56,8 @@ export const InputText = styled(TextInput).attrs(({ theme }: any) => ({
   },
 }))`
   font-weight: 500;
+  height: 40px;
+  font-size: 16px;
 `
 
 export const FieldsContainer = styled.View`

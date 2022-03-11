@@ -28,16 +28,16 @@ export const HeaderTextContainer = styled.View`
 `
 
 export const AgendaTitle = styled(Text).attrs({
-  size: 28,
+  size: 30,
   fontWeight: 'bold',
 })`
   margin-bottom: 10px;
 `
 
 export const AgendaSubTitle = styled(Text).attrs({
-  size: 14,
+  size: 18,
   fontWeight: 'normal',
-  lineHeight: 24,
+  lineHeight: 22,
 })``
 
 export const ContainerBody = styled.View`
@@ -53,7 +53,7 @@ export const PrimaryTitle = styled(Text).attrs(({ theme }: any) => ({
 }))``
 
 export const Title = styled(Text).attrs({
-  size: 18,
+  size: 26,
   fontWeight: 'bold',
   lineHeight: 23,
 })`

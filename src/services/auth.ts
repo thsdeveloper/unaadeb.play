@@ -3,17 +3,41 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 
-interface Response {
-  idToken: string
-  user: {
-    name: string
-    givenName: string
-    email: string
-    photo?: string
-  }
+export interface User {
+  id?: string
+  name: string
+  givenName: string
+  email: string
+  photo?: string
+  birthDate?: string
+  sector?: string
+  phone?: string
+  parentCPF?: string
+  parentName?: string
+  userType?: 'google' | 'firebase'
+  authProvider?: 'google' | 'local'
 }
 
-export function signIn(): Promise<Response | null> {
+interface Response {
+  user: User
+  idToken?: string
+}
+
+export interface CustomerProps {
+  name?: string
+  email?: string
+  phone?: string
+  birthDate?: string
+  parentName?: string
+  parentCPF?: string
+  sector?: string
+  userType?: 'google' | 'firebase'
+  photo?: string
+}
+
+export function signIn(): Promise<
+  Response | { error?: string; warning?: string }
+> {
   return new Promise((resolve, reject) => {
     GoogleSignin.configure({
       iosClientId: Config.GOOGLE_IOS_CLIENT_ID,
@@ -26,12 +50,13 @@ export function signIn(): Promise<Response | null> {
               if (userInfo) {
                 const authInfo = userInfo as Response
                 resolve({
-                  idToken: authInfo?.idToken,
                   user: {
                     name: authInfo?.user?.name,
                     email: authInfo?.user?.email,
                     givenName: authInfo?.user?.givenName,
                     photo: authInfo?.user?.photo,
+                    userType: 'google',
+                    id: authInfo?.user?.id,
                   },
                 })
               } else {
@@ -54,7 +79,10 @@ export function signIn(): Promise<Response | null> {
   })
 }
 
-export function signInForm(email: string, password: string): Promise<any> {
+export function signInForm(
+  email: string,
+  password: string,
+): Promise<boolean | { error: string }> {
   return new Promise((resolve, reject) => {
     auth()
       .signInWithEmailAndPassword(email, password)
@@ -76,7 +104,7 @@ export function signInForm(email: string, password: string): Promise<any> {
   })
 }
 
-export function getUserInfo(email: string): Promise<any> {
+export function getUserInfo(email: string): Promise<Response | null> {
   return new Promise((resolve, reject) => {
     firestore()
       .collection('customers')
@@ -84,13 +112,29 @@ export function getUserInfo(email: string): Promise<any> {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          const { name, email } = doc.data() || {}
+          const {
+            name,
+            email,
+            birthDate,
+            parentCPF,
+            parentName,
+            phone,
+            photo,
+            sector,
+            userType,
+          } = doc.data() || {}
           resolve({
             user: {
-              name: name,
-              email: email,
-              photo: '',
+              name,
+              email,
+              photo,
               givenName: name.split(' ')[0],
+              birthDate,
+              parentCPF,
+              parentName,
+              phone,
+              sector,
+              userType,
             },
           })
         } else {
@@ -99,6 +143,37 @@ export function getUserInfo(email: string): Promise<any> {
       })
       .catch((e) => {
         resolve(null)
+      })
+  })
+}
+
+export function addCustomer(customer: CustomerProps): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    if (!customer?.userType) {
+      customer.userType = 'firebase'
+    }
+    firestore()
+      .collection('customers')
+      .doc(customer.email)
+      .set(customer)
+      .then(() => {
+        resolve(true)
+      })
+      .catch((_error) => {
+        reject()
+      })
+  })
+}
+
+export function updatePassword(email: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        resolve(true)
+      })
+      .catch((_e) => {
+        reject()
       })
   })
 }

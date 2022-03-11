@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore'
 import { format } from 'date-fns'
 import pt from 'date-fns/locale/pt'
+import storage from '@react-native-firebase/storage'
 
 export interface NewsProps {
   title: string
@@ -119,6 +120,43 @@ export function getLeadership(): Promise<LeadershipProps[] | null> {
         }
       })
       .catch((e) => {
+        reject()
+      })
+  })
+}
+
+// export function uploadPicture(uri: string, name: string): Promise<string> {
+//   return new Promise((resolve, reject) => {
+//     storage()
+//       .ref(`profile/${name}`)
+//       .putFile(uri)
+//       .then((snapshot) => {
+//         console.log('Uploaded a blob or file!', snapshot)
+//         resolve(snapshot.ref.getDownloadURL())
+//       })
+//       .catch((e) => {
+//         reject(e)
+//       })
+//   })
+// }
+
+export function uploadPicture(uri: string, file: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const path = `profile/${file}`
+    const ref = storage().ref(path)
+    const task = ref.putFile(uri)
+    task
+      .then(() => {
+        ref
+          .getDownloadURL()
+          .then((url) => {
+            resolve(url)
+          })
+          .catch((e) => {
+            reject(e)
+          })
+      })
+      .catch((_e) => {
         reject()
       })
   })

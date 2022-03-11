@@ -1,29 +1,19 @@
 import React, { useCallback, useState, useContext, useMemo } from 'react'
 import { FlatList, TouchableOpacity } from 'react-native'
 import { Switch } from 'react-native-paper'
-import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/Entypo'
 import { useBottomSheetModal } from '@gorhom/bottom-sheet'
 
 import { AppPage, Button, ListItem } from '~/components'
 import AlertContext from '~/contexts/alert'
+import { CustomerProps, addCustomer } from '~/services/auth'
 
 import * as S from './styles'
 
 interface IFieldsProps {
   customer?: CustomerProps
   user?: UserProps
-}
-
-interface CustomerProps {
-  name?: string
-  email?: string
-  phone?: string
-  birthDate?: string
-  parentName?: string
-  parentCPF?: string
-  sector?: string
 }
 
 interface UserProps {
@@ -48,6 +38,7 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
   const [isPasswordsNotMatch, setIsPasswordsNotMatch] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false)
+
   const { dismiss } = useBottomSheetModal()
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn)
@@ -150,32 +141,34 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
     if (!isUserCreated) {
       return
     }
-    await firestore()
-      .collection('customers')
-      .doc(email)
-      .set({
-        name,
-        email,
-        phone,
-        birthDate,
-        sector,
-        parentName: formFields?.customer?.parentName ?? '',
-        parentCPF: formFields?.customer?.parentCPF ?? '',
-      })
-      .then(() => {
-        navigation.navigate('Login')
-        alert.success('Parabéns! Você já pode fazer login no app!')
-      })
-      .catch((_error) => {
+    submitCustomer()
+  }, [formFields])
+
+  const submitCustomer = useCallback(async () => {
+    const fields = formFields?.customer || {}
+    if (fields) {
+      try {
+        const result = await addCustomer(fields)
+        if (result) {
+          alert.success('Parabéns! Você já pode fazer login no app!')
+          navigation.navigate('Login')
+          return
+        }
+        throw new Error('Error')
+      } catch (e) {
         alert.error(
           'Erro ao realizar cadastro, por favor tente novamente em alguns instantes',
         )
-      })
-      .finally(() => {
+      } finally {
         setIsLoading(false)
         setFormFields({})
-      })
-  }, [formFields])
+      }
+      return
+    }
+    alert.error(
+      'Alguns dados não foram corretamente preenchidos, por favor verifique e tente novamente',
+    )
+  }, [formFields?.customer])
 
   const snapPoints = useMemo(() => ['50%'], [])
 
@@ -384,14 +377,14 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
             />
             <S.HeadText
               fontWeight='500'
-              size={15}
+              size={18}
               align='left'
               style={{ paddingRight: 60 }}
             >
               Li e concordo com os Termos e a{' '}
               <S.HeadText
                 fontWeight='bold'
-                size={16}
+                size={18}
                 style={{ textDecorationLine: 'underline' }}
               >
                 Política de Privacidade
@@ -407,6 +400,7 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
               onPress={onSubmit}
               style={{ width: '100%' }}
               disabled={!isSwitchOn}
+              textSize={12}
             />
           </S.SubmitButtonView>
         </S.FormContainer>
