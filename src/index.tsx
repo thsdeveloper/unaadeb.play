@@ -7,8 +7,9 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
 import { AuthProvider } from '~/contexts/auth'
 import { AlertProvider } from '~/contexts/alert'
+import { TrackProvider } from '~/contexts/track'
 import { theme, defaultTheme } from '~/config/fontConfig'
-import { Alert } from '~/components'
+import { Alert, PlayerMinimalist } from '~/components'
 import Routes from '~/routes'
 
 const App: React.FC = () => {
@@ -18,13 +19,16 @@ const App: React.FC = () => {
         <AlertProvider>
           <AuthProvider>
             <BottomSheetModalProvider>
-              <StatusBar
-                barStyle='light-content'
-                translucent
-                backgroundColor={'transparent'}
-              />
-              <Routes />
-              <Alert />
+              <TrackProvider>
+                <StatusBar
+                  barStyle='light-content'
+                  translucent
+                  backgroundColor={'transparent'}
+                />
+                <Routes />
+                <PlayerMinimalist />
+                <Alert />
+              </TrackProvider>
             </BottomSheetModalProvider>
           </AuthProvider>
         </AlertProvider>

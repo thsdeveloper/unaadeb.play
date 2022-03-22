@@ -16,6 +16,7 @@ interface IProps {
 const LogoIcon = require('../../../assets/images/icons/logo-icon.png')
 const LeadIcon = require('../../../assets/images/icons/lead-icon.png')
 const EventIcon = require('../../../assets/images/icons/date-icon.png')
+const PlayListIcon = require('../../../assets/images/icons/music-icon.png')
 
 const Home: React.FC<IProps> = ({ navigation }) => {
   const { user } = useAuth()
@@ -58,6 +59,11 @@ const Home: React.FC<IProps> = ({ navigation }) => {
       title: 'Agenda 2022',
       image: EventIcon,
       onPress: () => navigation.navigate('Agenda'),
+    },
+    {
+      title: 'Repertório',
+      image: PlayListIcon,
+      onPress: () => navigation.navigate('Playlist'),
     },
   ]
 
