@@ -66,6 +66,7 @@ export const KeyboardView = styled.KeyboardAvoidingView.attrs({
 
 export const FooterButtonView = styled.View`
   position: absolute;
+  bottom: ${({ isplayerActive }: any) => (!isplayerActive ? 0 : 55)}px;
   bottom: 0px;
   width: 100%;
   padding: 10px 20px 30px 20px;

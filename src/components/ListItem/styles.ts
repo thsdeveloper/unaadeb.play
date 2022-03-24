@@ -4,9 +4,10 @@ import { Text } from '~/components'
 import { TextProps } from './'
 
 export const ListText = styled(Text).attrs(
-  ({ theme, size }: any | TextProps) => ({
+  ({ theme, size, color }: any | TextProps) => ({
     size: size || 16,
     fontWeight: 'bold',
+    customColor: color || theme.colors.light,
   }),
 )``
 export const ListDescription = styled(Text).attrs(
