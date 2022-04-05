@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">UnaadebPlay</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">7c5FhXeIq8zrIYh7pUZOXV5ipuz35ydis15ss</string>
 </resources>

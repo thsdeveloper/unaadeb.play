@@ -155,7 +155,7 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
     resetPassword: {
       title: 'Redefinição de senha',
       description:
-        'Uma mensagem com instruções de redefinição senha será será enviada ao seu email de cadastro no UnaadebPlay',
+        'Uma mensagem com instruções de redefinição senha será enviada ao seu email de cadastro no UnaadebPlay',
       onConfirm: updatePasswordUser,
       onCancel: hideDialog,
       onDismiss: hideDialog,

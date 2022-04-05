@@ -12,7 +12,9 @@ interface StatusProps {
 
 const { height } = Dimensions.get('window')
 
-export const Container = styled.View``
+export const Container = styled.View`
+  margin-bottom: 40px;
+`
 
 export const ButtonShareHeader = styled.TouchableOpacity`
   margin-right: 20px;

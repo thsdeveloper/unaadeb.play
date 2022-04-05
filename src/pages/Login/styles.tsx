@@ -58,6 +58,10 @@ export const InputText = styled(TextInput).attrs(({ theme }: any) => ({
   font-weight: 500;
   height: 40px;
   font-size: 16px;
+  padding-bottom: 5px;
+  padding-top: 10px;
+  height: 40px;
+  line-height: 20px;
 `
 
 export const FieldsContainer = styled.View`
