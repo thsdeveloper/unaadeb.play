@@ -24,7 +24,7 @@ export const ItemTitle = styled(Text).attrs(({ theme }: any) => ({
 export const ItemCategoryTitle = styled(Text).attrs(({ theme }: any) => ({
   fontWeight: 'bold',
   size: 22,
-  customColor: theme.colors.brown,
+  customColor: theme.colors.lightBrown,
 }))`
   padding-left: 10px;
 `

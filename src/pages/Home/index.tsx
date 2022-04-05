@@ -3,9 +3,18 @@ import { FlatList, Dimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useTheme } from 'styled-components/native'
 
-import { AppPage, ListItem, Avatar, Menu, SmallCard, Text } from '~/components'
+import {
+  AppPage,
+  ListItem,
+  Avatar,
+  Menu,
+  SmallCard,
+  Text,
+  BannerHighlight,
+} from '~/components'
 import { useAuth } from '~/contexts/auth'
 import { getNews, NewsProps } from '~/services/storage'
+import { listBanners, BannersProps } from '~/services/banners'
 
 import * as S from './styles'
 
@@ -26,6 +35,7 @@ const Home: React.FC<IProps> = ({ navigation }) => {
   const [news, setNews] = useState<NewsProps[] | null>([])
   const [loading, setLoading] = useState(true)
   const [menuVisible, setMenuVisible] = useState(true)
+  const [banners, setBanners] = useState<BannersProps[]>([])
 
   const init = useCallback(async () => {
     try {
@@ -40,8 +50,23 @@ const Home: React.FC<IProps> = ({ navigation }) => {
     }
   }, [])
 
+  const loadBanners = useCallback(async () => {
+    try {
+      setLoading(true)
+      const banners = await listBanners()
+      if (banners?.length) {
+        setBanners(banners)
+      }
+    } catch (e) {
+      setBanners([])
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
   useEffect(() => {
     init()
+    loadBanners()
   }, [])
 
   const cardData = [
@@ -145,32 +170,37 @@ const Home: React.FC<IProps> = ({ navigation }) => {
   )
 
   return (
-    <AppPage scroll scrolType='flatlist' safeArea fit loading={loading}>
-      {user && (
-        <ListItem
-          title={{ text: `Olá, ${user?.givenName || ''}`, size: 26 }}
-          description={{ text: 'Hoje é dia de vitória' }}
-          left={(_props) => renderAvatar}
-          right={() => renderEllipsis()}
-          style={{ marginTop: 20 }}
+    <AppPage scroll scrolType='flatlist' safeArea fit={false} loading={loading}>
+      <S.Container>
+        {user && (
+          <ListItem
+            title={{ text: `Olá, ${user?.givenName || ''}`, size: 26 }}
+            description={{ text: 'Hoje é dia de vitória' }}
+            left={(_props) => renderAvatar}
+            right={() => renderEllipsis()}
+            style={{ marginTop: 20 }}
+          />
+        )}
+      </S.Container>
+      <BannerHighlight itens={banners} style={{ marginTop: 10 }} />
+      <S.Container style={{ marginBottom: 80 }}>
+        <S.CardView>
+          <SmallCard data={cardData} fit={cardData.length > 3} />
+        </S.CardView>
+
+        <S.NewsTitle fontWeight='bold' size={24}>
+          Últimas notícias da UNAADEB
+        </S.NewsTitle>
+
+        <FlatList
+          data={news}
+          renderItem={_renderNews}
+          scrollEnabled
+          horizontal={false}
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled={false}
         />
-      )}
-      <S.CardView>
-        <SmallCard data={cardData} fit={cardData.length > 3} />
-      </S.CardView>
-
-      <S.NewsTitle fontWeight='bold' size={24}>
-        Últimas notícias da UNAADEB
-      </S.NewsTitle>
-
-      <FlatList
-        data={news}
-        renderItem={_renderNews}
-        scrollEnabled
-        horizontal={false}
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled={false}
-      />
+      </S.Container>
     </AppPage>
   )
 }

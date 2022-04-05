@@ -9,6 +9,8 @@ import {
 import Slider from '@react-native-community/slider'
 import TrackPlayer, { State } from 'react-native-track-player'
 import { useTheme } from 'styled-components/native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
+
 import { useAudioPlayback } from '~/hooks/useAudioPlayback'
 import { ListItem, Avatar } from '~/components'
 
@@ -102,6 +104,7 @@ export const AudioPlayback: React.FC = (): JSX.Element => {
 export const PlayerMinimalist: React.FC = (): JSX.Element => {
   const { playlist, showPlayer, togglePlayer } = useContext(TrackContext)
   const alert = useContext(AlertContext)
+  const statusBarHeight = getStatusBarHeight()
   const { playbackState, trackArtist, trackTitle, trackArtwork } =
     useAudioPlayback()
 
@@ -144,7 +147,7 @@ export const PlayerMinimalist: React.FC = (): JSX.Element => {
   const onHidePlayer = useCallback(() => {
     if (!isPlaying) {
       togglePlayer(false)
-      setAnimations({ value: height + 20, duration: 300, expand: false })
+      setAnimations({ value: height + 10, duration: 300, expand: false })
     } else {
       alert.warning('Para ocultar o player, pause a música')
     }
@@ -169,7 +172,7 @@ export const PlayerMinimalist: React.FC = (): JSX.Element => {
                 trackArtwork && (
                   <Avatar.Image
                     source={{ uri: trackArtwork as string }}
-                    size={40}
+                    size={50}
                     style={{ marginTop: 10, marginRight: 10 }}
                   />
                 )

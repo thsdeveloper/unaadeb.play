@@ -77,13 +77,13 @@ export const ContainerMinimalist = styled(Animated.View)`
   background-color: #03092b;
   padding-left: 10px;
   padding-right: 10px;
-  top: ${height + 20}px;
+  top: ${height + 10}px;
 `
 
 export const ViewCurrentTrack = styled.View`
   padding-bottom: 30px;
   flex: 1;
-  margin: 0 10px;
+  margin: 0 5px;
 `
 export const TrackTitleMinimalist = styled(Text).attrs(({ theme }: any) => ({
   size: 16,
