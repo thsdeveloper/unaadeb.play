@@ -104,7 +104,6 @@ export const Picture: React.FC<PictureModalProps> = ({
 
   useEffect(() => {
     if (photoLibrary && photoLibFile) {
-      console.log('photoLibUri', photoLibFile)
       setAvatar(photoLibrary)
       setPhoto(photoLibFile)
     }

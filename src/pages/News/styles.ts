@@ -6,7 +6,7 @@ export const Container = styled.View`
   flex: 1;
   padding: 0 20px;
   margin-top: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 100px;
 `
 
 export const ContainerHeader = styled.View`

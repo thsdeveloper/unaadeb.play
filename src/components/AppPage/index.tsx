@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useContext } from 'react'
 import { StatusBar, Platform, StyleSheet } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { useTheme } from 'styled-components/native'
@@ -10,6 +10,8 @@ import { ModalProps } from '~/components/Modal'
 import { IButtonProps } from '~/components/Button'
 import { ISnackbarProps } from '~/components/Snackbar'
 import { IDialogProps } from '~/components/Dialog'
+
+import TrackContext from '~/contexts/track'
 
 import * as S from './styles'
 
@@ -62,6 +64,7 @@ export const AppPage: React.FC<IAppPageProps> = ({
 }) => {
   const theme = useTheme()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const { showPlayer } = useContext(TrackContext)
 
   const statusBarHeight =
     Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight()
@@ -81,7 +84,7 @@ export const AppPage: React.FC<IAppPageProps> = ({
   )
 
   const renderFooterButton = () => (
-    <S.FooterButtonView>
+    <S.FooterButtonView isplayerActive={showPlayer}>
       <S.FooterButton {...footerButton?.buttonProps} />
     </S.FooterButtonView>
   )
@@ -122,7 +125,10 @@ export const AppPage: React.FC<IAppPageProps> = ({
     () =>
       header && (
         <Appbar.Header
-          style={{ backgroundColor: theme.colors.blueLight, paddingBottom: 10 }}
+          style={{
+            backgroundColor: theme.colors.background,
+            paddingBottom: 10,
+          }}
           statusBarHeight={statusBarHeight}
         >
           <Appbar.BackAction onPress={header.onBackPress} />

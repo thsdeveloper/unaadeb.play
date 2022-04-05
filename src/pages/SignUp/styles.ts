@@ -17,7 +17,7 @@ export const Header = styled.View`
 export const HeadText = styled(Text)`
   text-align: ${({ align }: TextProps) => align || 'center'};
   color: ${({ theme }: any) => theme.colors.light};
-  line-height: 22px;
+  line-height: 33px;
 `
 
 export const FormContainer = styled.View`

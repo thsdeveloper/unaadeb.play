@@ -9,6 +9,7 @@ interface InputMode {
 
 export const Container = styled.View`
   margin-top: 20px;
+  margin-bottom: 50px;
 `
 
 export const Input = styled(TextInput).attrs(({ theme, mode }: any) => ({

@@ -10,6 +10,7 @@ import Agenda from '~/pages/Agenda'
 import AgendaDetails from '~/pages/AgendaDetails'
 import Profile from '~/pages/Profile'
 import ProfilePicture from '~/pages/ProfilePicture'
+import Playlist from '~/pages/Playlist'
 
 const AppStack = createStackNavigator()
 
@@ -24,6 +25,7 @@ const AppRoutes: React.FC = () => (
       <AppStack.Screen name='AgendaDetails' component={AgendaDetails} />
       <AppStack.Screen name='Profile' component={Profile} />
       <AppStack.Screen name='ProfilePicture' component={ProfilePicture} />
+      <AppStack.Screen name='Playlist' component={Playlist} />
     </AppStack.Navigator>
   </NavigationContainer>
 )

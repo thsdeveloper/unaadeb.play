@@ -3,6 +3,10 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import { Text } from '~/components'
 
+export const Container = styled.View`
+  margin: 0 10px;
+`
+
 export const CardView = styled.View`
   margin-top: 20px;
 `

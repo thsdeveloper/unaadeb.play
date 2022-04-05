@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { useTheme } from 'styled-components/native'
+import { View } from 'react-native'
 
 import { AppPage, Button } from '~/components'
 import AlertContext from '~/contexts/alert'
@@ -62,6 +63,10 @@ const Login: React.FC = ({ navigation }: any) => {
 
   const alternateLoginHandler = () => {
     setAlternateLogin(!alternateLogin)
+  }
+
+  const goToResetPassword = () => {
+    navigation.navigate('ResetPassword')
   }
 
   return (
@@ -146,21 +151,37 @@ const Login: React.FC = ({ navigation }: any) => {
           <S.ViewSubmitButton>
             <Button
               text='ENTRAR'
-              mode='text'
+              mode='contained'
               onPress={handleSignInForm}
               color={theme.colors.primary}
-              textSize={12}
+              textSize={14}
             />
           </S.ViewSubmitButton>
-          <S.ContainerButtons style={{ marginTop: 0 }}>
+          <S.ViewSubmitButton>
+            <Button
+              text='Esqueceu a senha?'
+              mode='text'
+              onPress={goToResetPassword}
+              color={theme.colors.secondary}
+              textSize={14}
+            />
+          </S.ViewSubmitButton>
+          <View
+            style={{
+              marginTop: 0,
+              alignItems: 'center',
+            }}
+          >
             <Button
               text='Voltar'
               mode='text'
               onPress={alternateLoginHandler}
               color={theme.colors.white}
               textSize={12}
+              icon={{ name: 'arrowleft', size: 20, bordered: false }}
+              style={{ width: 130 }}
             />
-          </S.ContainerButtons>
+          </View>
         </>
       )}
     </AppPage>

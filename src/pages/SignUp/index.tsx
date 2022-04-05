@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useContext, useMemo } from 'react'
-import { FlatList, TouchableOpacity } from 'react-native'
+import { FlatList, TouchableOpacity, View, Linking } from 'react-native'
 import { Switch } from 'react-native-paper'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/Entypo'
@@ -375,22 +375,44 @@ const SignUp: React.FC<IProps> = ({ navigation }): JSX.Element => {
               onValueChange={onToggleSwitch}
               style={{ marginRight: 10 }}
             />
-            <S.HeadText
-              fontWeight='500'
-              size={18}
-              align='left'
-              style={{ paddingRight: 60 }}
+            <View
+              style={{
+                paddingRight: 60,
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+              }}
             >
-              Li e concordo com os Termos e a{' '}
               <S.HeadText
-                fontWeight='bold'
+                fontWeight='500'
                 size={18}
-                style={{ textDecorationLine: 'underline' }}
+                align='left'
+                style={{ lineHeight: 22 }}
               >
-                Política de Privacidade
+                Li e concordo com os Termos e a{' '}
               </S.HeadText>
-              . E eu concordo em consentir que o ADEB colete meus dados.
-            </S.HeadText>
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL('https://adeb.com.br/privacidade')
+                }
+              >
+                <S.HeadText
+                  fontWeight='bold'
+                  size={18}
+                  align='left'
+                  style={{ textDecorationLine: 'underline', flexWrap: 'wrap' }}
+                >
+                  Política de Privacidade.
+                </S.HeadText>
+              </TouchableOpacity>
+              <S.HeadText
+                fontWeight='500'
+                size={18}
+                align='left'
+                style={{ lineHeight: 22 }}
+              >
+                E eu concordo em consentir que o ADEB colete meus dados.
+              </S.HeadText>
+            </View>
           </S.ViewSwitchField>
 
           <S.SubmitButtonView>

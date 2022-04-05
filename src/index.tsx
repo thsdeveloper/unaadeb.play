@@ -3,13 +3,17 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { ThemeProvider } from 'styled-components/native'
+import { TrackProvider } from '~/contexts/track'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import codePush from 'react-native-code-push'
 
 import { AuthProvider } from '~/contexts/auth'
 import { AlertProvider } from '~/contexts/alert'
 import { theme, defaultTheme } from '~/config/fontConfig'
-import { Alert } from '~/components'
+import { Alert, PlayerMinimalist } from '~/components'
 import Routes from '~/routes'
+
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME }
 
 const App: React.FC = () => {
   return (
@@ -18,13 +22,16 @@ const App: React.FC = () => {
         <AlertProvider>
           <AuthProvider>
             <BottomSheetModalProvider>
-              <StatusBar
-                barStyle='light-content'
-                translucent
-                backgroundColor={'transparent'}
-              />
-              <Routes />
-              <Alert />
+              <TrackProvider>
+                <StatusBar
+                  barStyle='light-content'
+                  translucent
+                  backgroundColor={'transparent'}
+                />
+                <Routes />
+                <PlayerMinimalist />
+                <Alert />
+              </TrackProvider>
             </BottomSheetModalProvider>
           </AuthProvider>
         </AlertProvider>
@@ -33,4 +40,4 @@ const App: React.FC = () => {
   )
 }
 
-export default App
+export default codePush(codePushOptions)(App)
