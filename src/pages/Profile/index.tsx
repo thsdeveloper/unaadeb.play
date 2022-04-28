@@ -132,7 +132,7 @@ const Profile: React.FC<IProps> = ({ navigation }): JSX.Element => {
 
   const sectorsData = useMemo(() => {
     const items: string[] = []
-    for (let i = 1; i <= 29; i++) {
+    for (let i = 1; i <= 30; i++) {
       items.push(`Setor ${i}`)
     }
     return items
